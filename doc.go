@@ -11,9 +11,9 @@ Compositor:- an array of signals.Functions, that is a signals.LimitedFunction.
 
 Interfaces
 
-Sounds are signals.LimitedFunction whose MaxX() is set with time.Durations.
+Sounds are signals.LimitedFunction whose MaxX() is set with a time.Duration.
 
-(see signals package for manipulation of signals.LimitedFunction, like saving/loading as PCM wave files.)
+(see signals package for advanced manipulation of signals.LimitedFunction.)
 
 */
 package sound

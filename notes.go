@@ -5,9 +5,6 @@ import (
 	"github.com/splace/signals"	//"../signals"
 	"time"
 )
-func NewTone(period time.Duration, volume float64) signals.Multiplex {
-	return signals.NewTone(signals.X(period), signals.DB(volume))
-}
 
 // make a sound from a Midi note number, a time.Duration and a volume percentage.
 // duration set to the closest whole number of Periodical.Period()s shorter than the length

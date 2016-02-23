@@ -7,7 +7,6 @@ import (
 
 func Delayed(s Sound, offset time.Duration) Sound {
 	return NewSound(signals.Shifted{signals.Multiplex{signals.Heavyside{}, s}, signals.X(offset)}, offset+time.Duration(s.MaxX()))
-	//return Sample{signals.Delayed{signals.Multiplex{signals.Heavyside{}, s}, signals.Interval(offset)}, offset + s.Duration()}
 }
 
 func Spedup(s Sound, f float32) Sound {

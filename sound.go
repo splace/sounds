@@ -16,7 +16,7 @@ func NewSound(sig signals.Function, d time.Duration) Sound {
 	return signals.Multiplex{sig, signals.Pulse{signals.X(d)}}
 }
 
-// encode a Sound with a particular sampleRate and sampleBytes precision.
+// encode a Sound as PCM, with a particular sampleRate and sampleBytes precision.
 func Encode(w io.Writer, s Sound, sampleRate, sampleBytes uint) {
 	signals.Encode(w, s, s.MaxX(), uint32(sampleRate), uint8(sampleBytes))
 }
@@ -36,7 +36,7 @@ func NewCompositor(c ...signals.Function) Compositor {
 }
 
 // Silence is a Sound with zero Level.
-// can be used to give a duration to Stacks, that otherwise dont contain any Sounds, only neverending Functions.
+// can be used to give a duration to Compositor, that otherwise dont contain any Sounds, only neverending Functions.
 func Silence(d time.Duration) (s Sound) {
 	return NewSound(signals.NewConstant(0), d)
 }
