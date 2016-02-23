@@ -13,6 +13,8 @@ Interfaces
 
 Sounds are signals.LimitedFunction whose MaxX() is set with time.Durations.
 
+(see signals package for manipulation of signals.LimitedFunction, like saving/loading as PCM wave files.)
+
 generators
 
 NewTone :- make a continuous Sine wave from a period and a volume percentage.
