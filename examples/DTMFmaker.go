@@ -1,7 +1,7 @@
 package main
 
 import "./DTMF"
-import . "../../sound"  // change to github.com/splace/sounds 
+import . "github.com/splace/sounds"  // change "../../sound"
 import "os"
 import "flag"
 import "time"
@@ -35,7 +35,7 @@ func main() {
 	tones:=NewCompositor()
 	tones.Compose=append(tones.Compose,NewSound(DTMF.Tones[code[0]],width))
 	for _,c:=range(code[1:]){
-		// add new tone that starts when the previous entry in the slice ends.
+		// add new Sound, a DTMF.Tone with width, that starts when the previous entry in the slice ends, plus a gap.
 		// Compose is a slice of Function interface, and so don't have to contain Sounds, and needs a type assertion, to a type that has an end.  
 		tones.Compose = append(tones.Compose,AfterPlusOffset(tones.Compose[len(tones.Compose)-1].(Sound), NewSound(DTMF.Tones[c],width),gap))
 	}
