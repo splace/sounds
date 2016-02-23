@@ -1,7 +1,7 @@
 package main
 
 import "./DTMF"
-import . "../../sound"
+import . "../../sound"  // change to github.com/splace/sounds 
 import "os"
 import "flag"
 import "time"
@@ -10,8 +10,8 @@ import	"log"
 func main() {
 	var gap,width time.Duration
 	var sampleRate,sampleBytes uint
-	flag.DurationVar(&gap, "gap", 180*time.Millisecond, "gap between pulses")
-	flag.DurationVar(&width, "width", 170*time.Millisecond, "pilse width")
+	flag.DurationVar(&gap, "gap", 80*time.Millisecond, "gap between pulses")
+	flag.DurationVar(&width, "width", 70*time.Millisecond, "pilse width")
 	flag.UintVar(&sampleRate, "rate", 44100, "sample per second")
 	flag.UintVar(&sampleBytes,"bytes", 2, "bytes per sample")
 	codeString:=flag.String("code", "0123456789*#ABCD", "<digits>*#ABCD for encode")
@@ -34,9 +34,9 @@ func main() {
 
 	tones:=NewCompositor()
 	tones.Compose=append(tones.Compose,NewSound(DTMF.Tones[code[0]],width))
-	for _,c:=range(code){
+	for _,c:=range(code[1:]){
 		// add new tone that starts when the previous entry in the slice ends.
-		// nCompose is a slice of Function interface, so don't have to contain Sounds, and needs a type assertion, to a type that has an end.  
+		// Compose is a slice of Function interface, and so don't have to contain Sounds, and needs a type assertion, to a type that has an end.  
 		tones.Compose = append(tones.Compose,AfterPlusOffset(tones.Compose[len(tones.Compose)-1].(Sound), NewSound(DTMF.Tones[c],width),gap))
 	}
 	Encode(wavFile,tones, sampleRate,sampleBytes )
