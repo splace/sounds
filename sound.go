@@ -9,13 +9,25 @@ import (
 
 const ms = time.Millisecond
 
-// Samples are Functions that have a duration.
-type Sound struct {
-	signals.LimitedFunction
-}
+// Sounds are Functions that have a duration.
+type Sound signals.LimitedFunction
 
 func NewSound(sig signals.Function, d time.Duration) Sound {
-	return Sound{signals.Multiplex{sig, signals.Pulse{signals.X(d)}}}
+	return signals.Multiplex{sig, signals.Pulse{signals.X(d)}}
+}
+
+func Encode(w io.Writer, s Sound, sampleRate, sampleBytes uint) {
+	signals.Encode(w, s, s.MaxX(), uint32(sampleRate), uint8(sampleBytes))
+}
+
+
+// Composition contains signals.Sum, an array of Functions, which can be Sounds.
+type Composition struct{
+	signals.Sum
+}
+
+func NewComposition(c ...signals.Function) Composition {
+	return Composition{signals.NewSum(c...)}
 }
 
 // Silence is a Sound with zero Level.
@@ -24,11 +36,5 @@ func Silence(d time.Duration) (s Sound) {
 	return NewSound(signals.NewConstant(0), d)
 }
 
-func Encode(w io.Writer, s Sound, sampleRate, sampleBytes uint) {
-	signals.Encode(w, s, s.MaxX(), uint32(sampleRate), uint8(sampleBytes))
-}
 
-// Tracks is a Sound, made from adding together Functions.
-func NewTracks(c ...signals.Function) Sound {
-	return Sound{signals.NewSum(c...)}
-}
+

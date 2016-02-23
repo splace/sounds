@@ -60,7 +60,7 @@ func TestSaveWavSoundAfterSound(t *testing.T) {
 	s3 := After(s2, NewNote(NewTone(Period(4, SemitoneNumber["C"]), 1), time.Second/3))
 	s4 := After(s3, NewNote(NewTone(Period(3, SemitoneNumber["C"]), 1), time.Second/3))
 	s5 := After(s4, NewNote(NewTone(Period(3, SemitoneNumber["G"]), 1), time.Second*2/3))
-	Encode(wavFile, NewTracks(s1, s2, s3, s4, s5), 44100, 1)
+	Encode(wavFile, NewComposition(s1, s2, s3, s4, s5), 44100, 1)
 
 }
 
