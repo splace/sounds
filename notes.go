@@ -9,7 +9,8 @@ func NewTone(period time.Duration, volume float64) signals.Multiplex {
 	return signals.NewTone(signals.X(period), signals.DB(volume))
 }
 
-// Notes are Sounds with their duration set to the closest whole number of Periodical.Period()s shorter than the length
+// make a sound from a Midi note number, a time.Duration and a volume percentage.
+// duration set to the closest whole number of Periodical.Period()s shorter than the length
 func NewNote(sig signals.PeriodicFunction, length time.Duration) Sound {
 	period := time.Duration(float32(sig.Period()) / float32(signals.UnitX) * float32(time.Second))
 	length -= (length + period) % period

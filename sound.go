@@ -16,11 +16,12 @@ func NewSound(sig signals.Function, d time.Duration) Sound {
 	return signals.Multiplex{sig, signals.Pulse{signals.X(d)}}
 }
 
+// encode a Sound with a particular sampleRate and sampleBytes precision.
 func Encode(w io.Writer, s Sound, sampleRate, sampleBytes uint) {
 	signals.Encode(w, s, s.MaxX(), uint32(sampleRate), uint8(sampleBytes))
 }
 
-
+// make a continuous Sine wave from a period and a volume percentage.
 func NewTone(period time.Duration, volume float64) signals.Multiplex {
 	return signals.NewTone(signals.X(period), signals.DB(volume))
 }

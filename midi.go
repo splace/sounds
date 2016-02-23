@@ -6,11 +6,13 @@ import (
 	"time"
 )
 
-// make a Sound from a MIDI note number,volume and duration set to the closest zero crossing to the duration requested
+// make a sound from a Midi note number, a time.Duration and a volume percentage.
+// duration set to the closest whole number of Periodical.Period()s shorter than the length
 func NewNoteMidi(n int8, length time.Duration, volume float64) Sound {
 	return NewNote(NewToneMidi(n, volume), length)
 }
 
+// make a continuous signal from a Midi-note number and a volume.
 func NewToneMidi(n int8, volume float64) signals.Multiplex {
 	return NewTone(PeriodFromCentiHz(FrequencyCentiHzMidi(n)), volume)
 }
