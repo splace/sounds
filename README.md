@@ -1,2 +1,2 @@
 # sounds
-Go language generation and manipulation of sounds, use of signals package. 
+Go language generation and manipulation of sounds, using github.com/splace/signals package. 
