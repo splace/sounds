@@ -1,7 +1,7 @@
 package main
 
 import . "github.com/splace/sounds"  // change "../../sound"
-import "./DTMF"
+import "github.com/splace/sounds/examples/DTMF"
 import "os"
 import "flag"
 import "time"
