@@ -1,6 +1,6 @@
 package DTMF
 
-import . "../../../signals"
+import . "github.com/splace/signals"
 import "time"
 
 // the minimum inter-digit interval shall be  45msec, the minimum pulse duration shall be 50msec, and the minimum duty cycle for ANSI-compliance shall be 100msec
