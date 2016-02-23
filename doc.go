@@ -17,12 +17,14 @@ generators
 
 NewTone :- make a continuous Sine wave from a period and a volume percentage.
 
-NewNote :- make a sound from a Midi note number, a time.Duration and a volume percentage.
+NewNote :- make a sound from a Midi note number, a time.Duration and a volume percentage.*
 
 
 NewToneMidi:- make a continuous signal from a Midi-note number and a volume.
 
-NewNoteMidi :- make a sound from a Midi note number, a time.Duration and a volume percentage.
+NewNoteMidi :- make a sound from a Midi note number, a time.Duration and a volume percentage.*
+
+*for notes the duration is actually set to a largest whole number of cycles, shorter.
 
 */
 package sound
