@@ -21,7 +21,7 @@ func Encode(w io.Writer, s Sound, sampleRate, sampleBytes uint) {
 }
 
 
-// Composition contains signals.Sum, an array of Functions, which can be Sounds.
+// Compositor contains signals.Sum, an array of Functions, which can be Sounds.
 type Compositor struct{
 	signals.Compose
 }

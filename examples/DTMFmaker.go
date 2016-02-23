@@ -32,13 +32,14 @@ func main() {
 	}
 	if len(code)==0{log.Fatal("need a least 1 key.")}
 
-	tones:=NewComposition()
-	tones.Sum=append(tones.Sum,NewSound(DTMF.Tones[code[0]],width))
+	tones:=NewCompositor()
+	tones.Compose=append(tones.Compose,NewSound(DTMF.Tones[code[0]],width))
 	for _,c:=range(code){
-		tones.Sum = append(tones.Sum,AfterPlusOffset(tones.Sum[len(tones.Sum)-1].(Sound), NewSound(DTMF.Tones[c],width),gap))
+		// add new tone that starts when the previous entry in the slice ends.
+		// nCompose is a slice of Function interface, so don't have to contain Sounds, and needs a type assertion, to a type that has an end.  
+		tones.Compose = append(tones.Compose,AfterPlusOffset(tones.Compose[len(tones.Compose)-1].(Sound), NewSound(DTMF.Tones[c],width),gap))
 	}
 	Encode(wavFile,tones, sampleRate,sampleBytes )
 }
-
 
 
