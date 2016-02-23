@@ -21,6 +21,10 @@ func Encode(w io.Writer, s Sound, sampleRate, sampleBytes uint) {
 }
 
 
+func NewTone(period time.Duration, volume float64) signals.Multiplex {
+	return signals.NewTone(signals.X(period), signals.DB(volume))
+}
+
 // Compositor contains signals.Sum, an array of Functions, which can be Sounds.
 type Compositor struct{
 	signals.Compose

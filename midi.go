@@ -10,9 +10,6 @@ import (
 func NewNoteMidi(n int8, length time.Duration, volume float64) Sound {
 	return NewNote(NewToneMidi(n, volume), length)
 }
-func NewTone(period time.Duration, volume float64) signals.Multiplex {
-	return signals.NewTone(signals.X(period), signals.DB(volume))
-}
 
 func NewToneMidi(n int8, volume float64) signals.Multiplex {
 	return NewTone(PeriodFromCentiHz(FrequencyCentiHzMidi(n)), volume)
