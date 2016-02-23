@@ -2,7 +2,7 @@
 package sound
 
 import (
-	"../signals"
+	"github.com/splace/signals"	//"../signals"
 	//"fmt"
 	"os"
 	"testing"

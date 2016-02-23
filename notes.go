@@ -2,7 +2,7 @@
 package sound
 
 import (
-	"../signals"
+	"github.com/splace/signals"	//"../signals"
 	"time"
 )
 func NewTone(period time.Duration, volume float64) signals.Multiplex {

@@ -1,7 +1,7 @@
 package sound
 
 import (
-	"github.com/splace/signals"
+	"github.com/splace/signals"	//"../signals"
 	"io"
 	"time"
 	//"fmt"
