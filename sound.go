@@ -22,12 +22,12 @@ func Encode(w io.Writer, s Sound, sampleRate, sampleBytes uint) {
 
 
 // Composition contains signals.Sum, an array of Functions, which can be Sounds.
-type Composition struct{
-	signals.Sum
+type Compositor struct{
+	signals.Compose
 }
 
-func NewComposition(c ...signals.Function) Composition {
-	return Composition{signals.NewSum(c...)}
+func NewCompositor(c ...signals.Function) Compositor {
+	return Compositor{signals.NewSum(c...)}
 }
 
 // Silence is a Sound with zero Level.
