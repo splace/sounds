@@ -21,9 +21,9 @@ var SemitonePrefixes = [...]string{"", "", "low", "base", "middle", "treble", "h
 var Semitones = [...]string{"C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"}
 
 func Period(octave, semiNote int8) time.Duration {
-	return PeriodFromCentiHz(FrequencyCentiHz(octave, semiNote))
+	return PeriodFromMilliHz(FrequencyMilliHz(octave, semiNote))
 }
 
-func PeriodFromCentiHz(chz int) time.Duration {
-	return 100 * time.Second / time.Duration(chz)
+func PeriodFromMilliHz(mhz int) time.Duration {
+	return 1000 * time.Second / time.Duration(mhz)
 }

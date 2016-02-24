@@ -3,7 +3,7 @@ package sound
 
 import (
 	"github.com/splace/signals"	//"../signals"
-	//"fmt"
+	"fmt"
 	"os"
 	"testing"
 	"time"
@@ -35,7 +35,7 @@ func TestSaveFlattenedSound(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s1 := NewSound(signals.NewSegmented(signals.NewNoise(), signals.X(time.Millisecond/2)), time.Second*2)
+	s1 := NewSound(signals.NewSegmented(signals.NewNoise(), signals.X(time.Millisecond/2)), time.Second/2)
 	Encode(wavFile, s1, 44100, 2)
 }
 
@@ -48,6 +48,66 @@ func TestSaveNote(t *testing.T) {
 	defer wavFile.Close()
 	s1 := NewNoteMidi(noteNumber, 2000*ms, 1)
 	Encode(wavFile, s1, 8000, 1)
+}
+func TestLoad(t *testing.T) {
+	stream, err := os.Open("middlec.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer stream.Close()
+	noises, err := signals.Decode(stream)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(len(noises))
+}
+
+func TestLoadChannels(t *testing.T) {
+	stream, err := os.Open("pcm0808s.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer stream.Close()
+	noises, err := signals.Decode(stream)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(len(noises))
+}
+
+func TestSaveSignal(t *testing.T) {
+	wavFile, err := os.Create("delayedlimitedsquaresignal.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer wavFile.Close()
+	s1 := Delayed(NewSound(signals.Square{signals.X(100 * ms)}, 1000 * ms), 2000*ms)
+	Encode(wavFile,s1,  8000, 1)
+}
+func TestSaveModifiedNote(t *testing.T) {
+	wavFile2, err := os.Create("NoteModded.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer wavFile2.Close()
+	s2 := Spedup(NewSound(NewTone(time.Millisecond, 100), time.Second), .264) // makes a middle c
+	Encode(wavFile2,s2, 8000, 1)
+}
+func TestSaveModifiedWav(t *testing.T) {
+	stream, err := os.Open("8k8bitpcm.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer stream.Close()
+	wavFile, err := os.Create("8k8bitpcmSpedup.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer wavFile.Close()
+	noises, err := signals.Decode(stream)
+	//noises[0].Interpolate = true // interpolation because the save frequency, 44.1k, is going to be much more than stored, 8k.
+	Encode(wavFile,Spedup(noises[0].(Sound), 1.2),  44100, 1)
+	//wav.Encode(noises[0], wavFile, 44100,1)
 }
 func TestSaveWavSoundAfterSound(t *testing.T) {
 	wavFile, err := os.Create("tones.wav")
@@ -74,3 +134,49 @@ func TestSaveVibrato(t *testing.T) {
 	sm := NewNoteMidi(MidiNoteNumber(OctaveNumber["great"], SemitoneNumber["C"]), 2000*ms, 1)
 	Encode(wavFile, Modulated(s, sm, 1*ms), 8000, 1)
 }
+
+
+func TestSaveADSRModulate(t *testing.T) {
+	wavFile, err := os.Create("ADSRModulate.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer wavFile.Close()
+	sm := signals.Looped{signals.NewADSREnvelope(signals.X(100*ms), signals.X(100*ms), signals.X(100*ms), signals.Maxy/10*7, signals.X(100*ms)), signals.X(400 * ms)}
+
+	s := NewNoteMidi(MidiNoteNumber(OctaveNumber["two-line"], SemitoneNumber["C"]), 3500*ms, 100)
+	Encode(wavFile,Modulated(s, sm, 20*ms),  8000, 1)
+}
+
+
+/*  Hal3 Wed Feb 24 18:09:37 GMT 2016 go version go1.5.1 linux/amd64
+=== RUN   TestSaveTone
+--- PASS: TestSaveTone (0.15s)
+=== RUN   TestSaveSound
+--- PASS: TestSaveSound (0.85s)
+=== RUN   TestSaveFlattenedSound
+--- PASS: TestSaveFlattenedSound (1.70s)
+=== RUN   TestSaveNote
+--- PASS: TestSaveNote (0.07s)
+=== RUN   TestLoad
+1
+--- PASS: TestLoad (0.01s)
+=== RUN   TestLoadChannels
+2
+--- PASS: TestLoadChannels (0.10s)
+=== RUN   TestSaveSignal
+--- PASS: TestSaveSignal (0.13s)
+=== RUN   TestSaveModifiedNote
+--- PASS: TestSaveModifiedNote (0.16s)
+=== RUN   TestSaveModifiedWav
+--- PASS: TestSaveModifiedWav (1.90s)
+=== RUN   TestSaveWavSoundAfterSound
+--- PASS: TestSaveWavSoundAfterSound (0.45s)
+=== RUN   TestSaveVibrato
+--- PASS: TestSaveVibrato (0.09s)
+=== RUN   TestSaveADSRModulate
+--- PASS: TestSaveADSRModulate (0.11s)
+PASS
+ok  	_/home/simon/Dropbox/github/working/sound	5.740s
+Wed Feb 24 18:09:44 GMT 2016 */
+

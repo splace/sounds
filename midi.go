@@ -14,18 +14,20 @@ func NewNoteMidi(n int8, length time.Duration, volume float64) Sound {
 
 // make a continuous Sine wave from a Midi-note number and a volume.
 func NewToneMidi(n int8, volume float64) signals.Multiplex {
-	return NewTone(PeriodFromCentiHz(FrequencyCentiHzMidi(n)), volume)
+	return NewTone(PeriodFromMilliHz(FrequencyMilliHzMidi(n)), volume)
 }
 
 const baseNoteNumber = 69
-const baseFrequency = 44000
+const baseFrequency = 440000   // mHz
 
-func FrequencyCentiHzMidi(noteNumber int8) int {
+// frequency as an int, in 1/1000 of a Hz units 
+func FrequencyMilliHzMidi(noteNumber int8) int {
 	return int(baseFrequency * math.Pow(2, float64(noteNumber-baseNoteNumber)/12))
 }
 
-func FrequencyCentiHz(octave, semiNote int8) int {
-	return FrequencyCentiHzMidi(MidiNoteNumber(octave, semiNote))
+// frequency as in int, in 1/1000 of a Hz units
+func FrequencyMilliHz(octave, semiNote int8) int {
+	return FrequencyMilliHzMidi(MidiNoteNumber(octave, semiNote))
 }
 
 func MidiNoteNumber(octave, semiNote int8) int8 {
@@ -35,3 +37,6 @@ func MidiNoteNumber(octave, semiNote int8) int8 {
 func NameFromMidiNoteNumber(noteNumber int8) string {
 	return SemitonePrefixes[noteNumber/12] + Semitones[noteNumber%12]
 }
+
+
+
