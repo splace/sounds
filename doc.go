@@ -3,17 +3,15 @@ Package sounds generates and manipulates sounds.
 
 Overview
 
-Fundamental Types
-
-Compositor:- an array of signals.Functions, that is a signals.LimitedFunction.
-
-(the limit for the Compositor, that makes it a signals.LimitedFunction, comes from the contained signals.Functions, so at least one has to be signals.LimitedFunction)
-
 Interfaces
 
-Sounds are signals.LimitedFunction whose MaxX() is set with a time.Duration.
+Sound:- has constructors for various Tones/Notes, and modifiers for basic alterations, using time.Duration rather than the abstract units of the signals package. (is a signals.LimitedFunction)
 
-(see signals package for advanced manipulation of signals.LimitedFunction.)
+Fundamental Types
+
+Compositor:- an array of signals.Functions, that is a signals.LimitedFunction, and so is a Sound.
+
+(the limit for the Compositor, that makes it a signals.LimitedFunction, comes from the contained signals.Functions, so at least one has to be a signals.LimitedFunction)
 
 */
 package sound
