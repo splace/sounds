@@ -1,3 +1,4 @@
+// command line inteface for gneration of telephone tone dialing codes (DTMF) 
 package main
 
 import . "github.com/splace/sounds"  // change "../../sound"

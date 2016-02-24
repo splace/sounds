@@ -1,3 +1,4 @@
+// lookup DTMF tones from key 
 package DTMF
 
 import . "github.com/splace/signals"
