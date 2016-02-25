@@ -10,7 +10,7 @@ Installation:
      go get github.com/splace/sounds   
 
 
-Example:
+Example: tune with electronic organ sampled notes.
 
 https://github.com/splace/sounds/blob/master/test%20output/hNotes.wav
 
