@@ -1,7 +1,7 @@
 package sound
 
 import (
-	"github.com/splace/signals"	//"../signals"
+	"../signals"//"github.com/splace/signals"	//
 	"math"
 	"time"
 )
@@ -13,8 +13,12 @@ func NewNoteMidi(n int8, length time.Duration, volume float64) Sound {
 }
 
 // make a continuous Sine wave from a Midi-note number and a volume.
-func NewToneMidi(n int8, volume float64) signals.Multiplex {
+func NewToneMidi(n int8, volume float64) signals.PeriodicFunction {
 	return NewTone(PeriodFromMilliHz(FrequencyMilliHzMidi(n)), volume)
+}
+// make a continuous wave whose source is a Sound scaled to fit the period, and looped.
+func NewSampledMidiTone(n int8, sample Sound, volume float64) signals.PeriodicFunction {
+	return NewSampledTone(PeriodFromMilliHz(FrequencyMilliHzMidi(n)), sample, volume) 
 }
 
 const baseNoteNumber = 69

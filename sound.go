@@ -1,7 +1,7 @@
 package sound
 
 import (
-	"github.com/splace/signals"	//"../signals"
+	"../signals"//"github.com/splace/signals"	//
 	"io"
 	"time"
 	//"fmt"
@@ -22,8 +22,12 @@ func Encode(w io.Writer, s Sound, sampleRate, sampleBytes uint) {
 }
 
 // make a continuous Sine wave from a period and a volume percentage.
-func NewTone(period time.Duration, volume float64) signals.Multiplex {
+func NewTone(period time.Duration, volume float64) signals.PeriodicFunction {
 	return signals.NewTone(signals.X(period), signals.DB(volume))
+}
+// make a continuous wave whose source is a Sound scaled to fit the period, and looped.
+func NewSampledTone(period time.Duration, sample Sound, volume float64) signals.PeriodicFunction {
+	return signals.Multiplex{signals.Looped{Spedup(sample, float32(sample.MaxX())/float32(period)), signals.X(period)}, signals.NewConstant(signals.DB(volume))}
 }
 
 // Compositor contains signals.Compose, an array of Functions, which can be Sounds.

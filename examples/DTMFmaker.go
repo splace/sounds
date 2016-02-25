@@ -1,4 +1,4 @@
-// command line inteface for gneration of telephone tone dialing codes (DTMF) 
+// command line inteface for generation of telephone tone dialing codes (DTMF) 
 package main
 
 import . "github.com/splace/sounds"  // change "../../sound"
@@ -12,10 +12,10 @@ func main() {
 	var gap,width time.Duration
 	var sampleRate,sampleBytes uint
 	flag.DurationVar(&gap, "gap", 80*time.Millisecond, "gap between pulses")
-	flag.DurationVar(&width, "width", 70*time.Millisecond, "pilse width")
+	flag.DurationVar(&width, "width", 70*time.Millisecond, "pulse width")
 	flag.UintVar(&sampleRate, "rate", 44100, "sample per second")
 	flag.UintVar(&sampleBytes,"bytes", 2, "bytes per sample")
-	codeString:=flag.String("code", "0123456789*#ABCD", "<digits>*#ABCD for encode")
+	codeString:=flag.String("code", "0123456789", "<digits>*#ABCD to be encoded.")
 
 	flag.Parse()
 	file := flag.Args()
@@ -37,7 +37,7 @@ func main() {
 	tones.Compose=append(tones.Compose,NewSound(DTMF.Tones[code[0]],width))
 	for _,c:=range(code[1:]){
 		// add new Sound, a DTMF.Tone with width, that starts when the previous entry in the slice ends, plus a gap.
-		// Compose is a slice of Function interface, and so don't have to contain Sounds, and needs a type assertion, to a type that has an end.  
+		// Compose is a slice of Function, an interface that doesn't have to contain Sounds, so needs a type assertion to Sound, a type that has an end.  
 		tones.Compose = append(tones.Compose,AfterPlusOffset(tones.Compose[len(tones.Compose)-1].(Sound), NewSound(DTMF.Tones[c],width),gap))
 	}
 	Encode(wavFile,tones, sampleRate,sampleBytes )

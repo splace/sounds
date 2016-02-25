@@ -2,7 +2,7 @@
 package sound
 
 import (
-	"github.com/splace/signals"	//"../signals"
+	"../signals"//"github.com/splace/signals"	//
 	"fmt"
 	"os"
 	"testing"
@@ -147,13 +147,63 @@ func TestSaveADSRModulate(t *testing.T) {
 	s := NewNoteMidi(MidiNoteNumber(OctaveNumber["two-line"], SemitoneNumber["C"]), 3500*ms, 100)
 	Encode(wavFile,Modulated(s, sm, 20*ms),  8000, 1)
 }
+func TestSaveHarmonicNotes(t *testing.T) {
+	stream, err := os.Open("AKWF_eorgan_0003.wav")
+	if err != nil {
+		panic(err)
+	}
+	piano, err := signals.Decode(stream)
+	if err != nil {
+		panic(err)
+	}
+	defer stream.Close()
 
+	wavFile, err := os.Create("hNotes.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer wavFile.Close()
+	sustainedEnv := func(length time.Duration) signals.LimitedFunction {
+		return signals.NewADSREnvelope(signals.X(25*ms), signals.X(100*ms), signals.X(length), signals.Maxy/2, signals.X(500*ms))
+	}
 
-/*  Hal3 Wed Feb 24 18:09:37 GMT 2016 go version go1.5.1 linux/amd64
+	noteDuration := 180 * ms
+	sustainDuration := 50 * ms
+	notes := Compositor{}
+	addMidiNote := func(t Compositor, noteNum int8, length, gap uint8) Compositor {
+		//noteAndGap := Sound{signals.Product{NewToneMidi(noteNum, 80), sustainedEnv(signals.MultiplyInterval(length, sustainDuration))}, 140*ms+signals.MultiplyInterval(length+gap, noteDuration)}
+		envNoteAndGap := NewSound(signals.Multiplex{NewSampledMidiTone(noteNum, piano[0], .7), sustainedEnv(time.Duration(length)*sustainDuration)}, 140*ms + time.Duration(length+gap)* noteDuration)
+		if len(t.Compose) == 0 {
+			return NewCompositor(append(t.Compose, envNoteAndGap))
+		}
+		return NewCompositor(append(t.Compose, AfterPlusOffset(t.Compose[len(t.Compose)-1].(Sound), envNoteAndGap, -140*ms)))
+	}
+
+	TwinkleTwinkleLittleStar := []int8{60, 60, 67, 67, 69, 69, -67, 65, 65, 64, 64, 62, 62, -60}
+	var noteLength uint8 = 1
+	for _, note := range TwinkleTwinkleLittleStar {
+		if note < 0 {
+			notes = addMidiNote(notes, -note, noteLength*2+2, 0)
+		} else {
+			notes = addMidiNote(notes, note, noteLength*2, 0)
+		}
+	}
+	// measured frequencies: 261 392  440 392 349 330 293.5 261 checked
+	Encode(wavFile, notes, 44100, 1)
+}
+
+/*
+func BenchmarkOne(b *testing.B) {
+	b.StopTimer()
+}
+
+*/
+
+/*  hal3 Thu 25 Feb 04:14:38 GMT 2016 go version go1.5.1 linux/386
 === RUN   TestSaveTone
---- PASS: TestSaveTone (0.15s)
+--- PASS: TestSaveTone (0.19s)
 === RUN   TestSaveSound
---- PASS: TestSaveSound (0.85s)
+--- PASS: TestSaveSound (0.91s)
 === RUN   TestSaveFlattenedSound
 --- PASS: TestSaveFlattenedSound (1.70s)
 === RUN   TestSaveNote
@@ -163,20 +213,54 @@ func TestSaveADSRModulate(t *testing.T) {
 --- PASS: TestLoad (0.01s)
 === RUN   TestLoadChannels
 2
---- PASS: TestLoadChannels (0.10s)
+--- PASS: TestLoadChannels (0.09s)
 === RUN   TestSaveSignal
---- PASS: TestSaveSignal (0.13s)
+--- PASS: TestSaveSignal (0.11s)
 === RUN   TestSaveModifiedNote
---- PASS: TestSaveModifiedNote (0.16s)
+--- PASS: TestSaveModifiedNote (0.13s)
 === RUN   TestSaveModifiedWav
---- PASS: TestSaveModifiedWav (1.90s)
+--- PASS: TestSaveModifiedWav (2.42s)
 === RUN   TestSaveWavSoundAfterSound
---- PASS: TestSaveWavSoundAfterSound (0.45s)
+--- PASS: TestSaveWavSoundAfterSound (0.51s)
 === RUN   TestSaveVibrato
 --- PASS: TestSaveVibrato (0.09s)
 === RUN   TestSaveADSRModulate
---- PASS: TestSaveADSRModulate (0.11s)
+--- PASS: TestSaveADSRModulate (0.13s)
+=== RUN   TestSaveHarmonicNotes
+--- PASS: TestSaveHarmonicNotes (2.72s)
 PASS
-ok  	_/home/simon/Dropbox/github/working/sound	5.740s
-Wed Feb 24 18:09:44 GMT 2016 */
+ok  	_/home/simon/Dropbox/github/working/sound	9.125s
+Thu 25 Feb 04:14:54 GMT 2016 */
+/*  hal3 Thu 25 Feb 04:20:33 GMT 2016 go version go1.5.1 linux/386
+=== RUN   TestSaveTone
+--- PASS: TestSaveTone (0.20s)
+=== RUN   TestSaveSound
+--- PASS: TestSaveSound (0.96s)
+=== RUN   TestSaveFlattenedSound
+--- PASS: TestSaveFlattenedSound (1.69s)
+=== RUN   TestSaveNote
+--- PASS: TestSaveNote (0.07s)
+=== RUN   TestLoad
+1
+--- PASS: TestLoad (0.01s)
+=== RUN   TestLoadChannels
+2
+--- PASS: TestLoadChannels (0.09s)
+=== RUN   TestSaveSignal
+--- PASS: TestSaveSignal (0.11s)
+=== RUN   TestSaveModifiedNote
+--- PASS: TestSaveModifiedNote (0.15s)
+=== RUN   TestSaveModifiedWav
+--- PASS: TestSaveModifiedWav (2.34s)
+=== RUN   TestSaveWavSoundAfterSound
+--- PASS: TestSaveWavSoundAfterSound (0.49s)
+=== RUN   TestSaveVibrato
+--- PASS: TestSaveVibrato (0.08s)
+=== RUN   TestSaveADSRModulate
+--- PASS: TestSaveADSRModulate (0.14s)
+=== RUN   TestSaveHarmonicNotes
+--- PASS: TestSaveHarmonicNotes (2.43s)
+PASS
+ok  	_/home/simon/Dropbox/github/working/sound	8.792s
+Thu 25 Feb 04:20:44 GMT 2016 */
 
