@@ -1,7 +1,7 @@
 package sound
 
 import (
-	"../signals"//"github.com/splace/signals"	//
+	"github.com/splace/signals"	//"../signals"//
 	"math"
 	"time"
 )
@@ -16,7 +16,8 @@ func NewNoteMidi(n int8, length time.Duration, volume float64) Sound {
 func NewToneMidi(n int8, volume float64) signals.PeriodicFunction {
 	return NewTone(PeriodFromMilliHz(FrequencyMilliHzMidi(n)), volume)
 }
-// make a continuous wave whose source is a Sound scaled to fit the period, and looped.
+
+// make a continuous wave whose source is a Sound scaled to fit the period, and looped. more simply it is a Tone made from a sound sample and, using the PCM decode function, can be used with standard wav encoded instrument samples.
 func NewSampledMidiTone(n int8, sample Sound, volume float64) signals.PeriodicFunction {
 	return NewSampledTone(PeriodFromMilliHz(FrequencyMilliHzMidi(n)), sample, volume) 
 }

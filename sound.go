@@ -1,7 +1,7 @@
 package sound
 
 import (
-	"../signals"//"github.com/splace/signals"	//
+	"github.com/splace/signals"	//"../signals"//
 	"io"
 	"time"
 	//"fmt"
@@ -21,7 +21,7 @@ func Encode(w io.Writer, s Sound, sampleRate, sampleBytes uint) {
 	signals.Encode(w, s, s.MaxX(), uint32(sampleRate), uint8(sampleBytes))
 }
 
-// make a continuous Sine wave from a period and a volume percentage.
+// make a continuous Sine wave from a period and a volume.
 func NewTone(period time.Duration, volume float64) signals.PeriodicFunction {
 	return signals.NewTone(signals.X(period), signals.DB(volume))
 }

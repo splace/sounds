@@ -2,7 +2,7 @@
 package sound
 
 import (
-	"../signals"//"github.com/splace/signals"	//
+	"github.com/splace/signals"	//"../signals"//
 	"fmt"
 	"os"
 	"testing"
@@ -199,68 +199,4 @@ func BenchmarkOne(b *testing.B) {
 
 */
 
-/*  hal3 Thu 25 Feb 04:14:38 GMT 2016 go version go1.5.1 linux/386
-=== RUN   TestSaveTone
---- PASS: TestSaveTone (0.19s)
-=== RUN   TestSaveSound
---- PASS: TestSaveSound (0.91s)
-=== RUN   TestSaveFlattenedSound
---- PASS: TestSaveFlattenedSound (1.70s)
-=== RUN   TestSaveNote
---- PASS: TestSaveNote (0.07s)
-=== RUN   TestLoad
-1
---- PASS: TestLoad (0.01s)
-=== RUN   TestLoadChannels
-2
---- PASS: TestLoadChannels (0.09s)
-=== RUN   TestSaveSignal
---- PASS: TestSaveSignal (0.11s)
-=== RUN   TestSaveModifiedNote
---- PASS: TestSaveModifiedNote (0.13s)
-=== RUN   TestSaveModifiedWav
---- PASS: TestSaveModifiedWav (2.42s)
-=== RUN   TestSaveWavSoundAfterSound
---- PASS: TestSaveWavSoundAfterSound (0.51s)
-=== RUN   TestSaveVibrato
---- PASS: TestSaveVibrato (0.09s)
-=== RUN   TestSaveADSRModulate
---- PASS: TestSaveADSRModulate (0.13s)
-=== RUN   TestSaveHarmonicNotes
---- PASS: TestSaveHarmonicNotes (2.72s)
-PASS
-ok  	_/home/simon/Dropbox/github/working/sound	9.125s
-Thu 25 Feb 04:14:54 GMT 2016 */
-/*  hal3 Thu 25 Feb 04:20:33 GMT 2016 go version go1.5.1 linux/386
-=== RUN   TestSaveTone
---- PASS: TestSaveTone (0.20s)
-=== RUN   TestSaveSound
---- PASS: TestSaveSound (0.96s)
-=== RUN   TestSaveFlattenedSound
---- PASS: TestSaveFlattenedSound (1.69s)
-=== RUN   TestSaveNote
---- PASS: TestSaveNote (0.07s)
-=== RUN   TestLoad
-1
---- PASS: TestLoad (0.01s)
-=== RUN   TestLoadChannels
-2
---- PASS: TestLoadChannels (0.09s)
-=== RUN   TestSaveSignal
---- PASS: TestSaveSignal (0.11s)
-=== RUN   TestSaveModifiedNote
---- PASS: TestSaveModifiedNote (0.15s)
-=== RUN   TestSaveModifiedWav
---- PASS: TestSaveModifiedWav (2.34s)
-=== RUN   TestSaveWavSoundAfterSound
---- PASS: TestSaveWavSoundAfterSound (0.49s)
-=== RUN   TestSaveVibrato
---- PASS: TestSaveVibrato (0.08s)
-=== RUN   TestSaveADSRModulate
---- PASS: TestSaveADSRModulate (0.14s)
-=== RUN   TestSaveHarmonicNotes
---- PASS: TestSaveHarmonicNotes (2.43s)
-PASS
-ok  	_/home/simon/Dropbox/github/working/sound	8.792s
-Thu 25 Feb 04:20:44 GMT 2016 */
 
