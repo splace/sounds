@@ -7,7 +7,7 @@ import (
 
 // make a sound from a Midi note number, a time.Duration and a volume percentage.
 // duration set to the closest whole number of Periodical.Period()s shorter than the length
-func NewNoteMidi(n int8, length time.Duration, volume float64) Sound {
+func NewMidiNote(n int8, length time.Duration, volume float64) Note {
 	return NewNote(NewMidiTone(n, volume), length)
 }
 

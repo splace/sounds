@@ -15,6 +15,9 @@ type Sound signals.LimitedFunction
 // Tones are Functions that have a repeat period.
 type Tone signals.PeriodicFunction
 
+// Notes are Functions that have a repeat period and a Duration.
+type Note signals.PeriodicLimitedFunction
+
 func NewSound(sig signals.Function, d time.Duration) Sound {
 	return signals.Multiplex{sig, signals.Pulse{signals.X(d)}}
 }

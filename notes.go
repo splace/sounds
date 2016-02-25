@@ -8,7 +8,7 @@ import (
 
 // make a sound from a PeriodicFunction, and a time.Duration.
 // end actually set to the closest whole number of Periodical.Period()s shorter than the length
-func NewNote(sig signals.PeriodicFunction, length time.Duration) Sound {
+func NewNote(sig signals.PeriodicFunction, length time.Duration) Note {
 	period := time.Duration(float32(sig.Period()) / float32(signals.UnitX) * float32(time.Second))
 	length -= (length + period) % period
 	// length-=(length+period/2)%period  // half cycle matching

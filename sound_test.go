@@ -46,7 +46,7 @@ func TestSaveNote(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s1 := NewNoteMidi(noteNumber, 2000*ms, 1)
+	s1 := NewMidiNote(noteNumber, 2000*ms, 1)
 	Encode(wavFile, s1, 8000, 1)
 }
 func TestLoad(t *testing.T) {
@@ -130,8 +130,8 @@ func TestSaveVibrato(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s := NewNoteMidi(MidiNoteNumber(OctaveNumber["one-line"], SemitoneNumber["C"]), 2000*ms, 1)
-	sm := NewNoteMidi(MidiNoteNumber(OctaveNumber["great"], SemitoneNumber["C"]), 2000*ms, 1)
+	s := NewMidiNote(MidiNoteNumber(OctaveNumber["one-line"], SemitoneNumber["C"]), 2000*ms, 1)
+	sm := NewMidiNote(MidiNoteNumber(OctaveNumber["great"], SemitoneNumber["C"]), 2000*ms, 1)
 	Encode(wavFile, Modulated(s, sm, 1*ms), 8000, 1)
 }
 
@@ -144,7 +144,7 @@ func TestSaveADSRModulate(t *testing.T) {
 	defer wavFile.Close()
 	sm := signals.Looped{signals.NewADSREnvelope(signals.X(100*ms), signals.X(100*ms), signals.X(100*ms), signals.Maxy/10*7, signals.X(100*ms)), signals.X(400 * ms)}
 
-	s := NewNoteMidi(MidiNoteNumber(OctaveNumber["two-line"], SemitoneNumber["C"]), 3500*ms, 100)
+	s := NewMidiNote(MidiNoteNumber(OctaveNumber["two-line"], SemitoneNumber["C"]), 3500*ms, 100)
 	Encode(wavFile,Modulated(s, sm, 20*ms),  8000, 1)
 }
 func TestSaveHarmonicNotes(t *testing.T) {
