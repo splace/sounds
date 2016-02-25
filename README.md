@@ -12,7 +12,8 @@ Installation:
 
 Example: tune with electronic organ sampled notes.
 
-https://github.com/splace/sounds/blob/master/test%20output/hNotes.wav
+<audio src="https://github.com/splace/sounds/blob/master/test%20output/hNotes.wav" controls preload></audio>
+
 
 [![GoDoc](https://godoc.org/github.com/splace/sounds?status.svg)](https://godoc.org/github.com/splace/sounds)
 
