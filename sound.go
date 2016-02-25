@@ -12,6 +12,9 @@ const ms = time.Millisecond
 // Sounds are Functions that have a duration.
 type Sound signals.LimitedFunction
 
+// Tones are Functions that have a repeat period.
+type Tone signals.PeriodicFunction
+
 func NewSound(sig signals.Function, d time.Duration) Sound {
 	return signals.Multiplex{sig, signals.Pulse{signals.X(d)}}
 }
@@ -22,11 +25,11 @@ func Encode(w io.Writer, s Sound, sampleRate, sampleBytes uint) {
 }
 
 // make a continuous Sine wave from a period and a volume.
-func NewTone(period time.Duration, volume float64) signals.PeriodicFunction {
+func NewTone(period time.Duration, volume float64) Tone {
 	return signals.NewTone(signals.X(period), signals.DB(volume))
 }
 // make a continuous wave whose source is a Sound scaled to fit the period, and looped.
-func NewSampledTone(period time.Duration, sample Sound, volume float64) signals.PeriodicFunction {
+func NewSampledTone(period time.Duration, sample Sound, volume float64) Tone {
 	return signals.Multiplex{signals.Looped{Spedup(sample, float32(sample.MaxX())/float32(period)), signals.X(period)}, signals.NewConstant(signals.DB(volume))}
 }
 
