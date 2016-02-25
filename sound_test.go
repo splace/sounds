@@ -10,7 +10,7 @@ import (
 )
 
 func TestSaveTone(t *testing.T) {
-	wavFile, err := os.Create("tone.wav")
+	wavFile, err := os.Create("./test output/tone.wav")
 	if err != nil {
 		panic(err)
 	}
@@ -20,7 +20,7 @@ func TestSaveTone(t *testing.T) {
 }
 
 func TestSaveSound(t *testing.T) {
-	wavFile, err := os.Create("noise.wav")
+	wavFile, err := os.Create("./test output/noise.wav")
 	if err != nil {
 		panic(err)
 	}
@@ -30,7 +30,7 @@ func TestSaveSound(t *testing.T) {
 }
 
 func TestSaveFlattenedSound(t *testing.T) {
-	wavFile, err := os.Create("fnoise.wav")
+	wavFile, err := os.Create("./test output/fnoise.wav")
 	if err != nil {
 		panic(err)
 	}
@@ -41,7 +41,7 @@ func TestSaveFlattenedSound(t *testing.T) {
 
 func TestSaveNote(t *testing.T) {
 	noteNumber := MidiNoteNumber(OctaveNumber["one-line"], SemitoneNumber["C"])
-	wavFile, err := os.Create("middlec.wav")
+	wavFile, err := os.Create("./test output/middlec.wav")
 	if err != nil {
 		panic(err)
 	}
@@ -76,7 +76,7 @@ func TestLoadChannels(t *testing.T) {
 }
 
 func TestSaveSignal(t *testing.T) {
-	wavFile, err := os.Create("delayedlimitedsquaresignal.wav")
+	wavFile, err := os.Create("./test output/delayedlimitedsquaresignal.wav")
 	if err != nil {
 		panic(err)
 	}
@@ -85,7 +85,7 @@ func TestSaveSignal(t *testing.T) {
 	Encode(wavFile,s1,  8000, 1)
 }
 func TestSaveModifiedNote(t *testing.T) {
-	wavFile2, err := os.Create("NoteModded.wav")
+	wavFile2, err := os.Create("./test output/NoteModded.wav")
 	if err != nil {
 		panic(err)
 	}
@@ -99,7 +99,7 @@ func TestSaveModifiedWav(t *testing.T) {
 		panic(err)
 	}
 	defer stream.Close()
-	wavFile, err := os.Create("8k8bitpcmSpedup.wav")
+	wavFile, err := os.Create("./test output/8k8bitpcmSpedup.wav")
 	if err != nil {
 		panic(err)
 	}
@@ -110,7 +110,7 @@ func TestSaveModifiedWav(t *testing.T) {
 	//wav.Encode(noises[0], wavFile, 44100,1)
 }
 func TestSaveWavSoundAfterSound(t *testing.T) {
-	wavFile, err := os.Create("tones.wav")
+	wavFile, err := os.Create("./test output/tones.wav")
 	if err != nil {
 		panic(err)
 	}
@@ -125,7 +125,7 @@ func TestSaveWavSoundAfterSound(t *testing.T) {
 }
 
 func TestSaveVibrato(t *testing.T) {
-	wavFile, err := os.Create("vibrato.wav")
+	wavFile, err := os.Create("./test output/vibrato.wav")
 	if err != nil {
 		panic(err)
 	}
@@ -137,7 +137,7 @@ func TestSaveVibrato(t *testing.T) {
 
 
 func TestSaveADSRModulate(t *testing.T) {
-	wavFile, err := os.Create("ADSRModulate.wav")
+	wavFile, err := os.Create("./test output/ADSRModulate.wav")
 	if err != nil {
 		panic(err)
 	}
@@ -158,7 +158,7 @@ func TestSaveHarmonicNotes(t *testing.T) {
 	}
 	defer stream.Close()
 
-	wavFile, err := os.Create("hNotes.wav")
+	wavFile, err := os.Create("./test output/hNotes.wav")
 	if err != nil {
 		panic(err)
 	}
