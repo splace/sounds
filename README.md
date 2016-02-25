@@ -9,6 +9,10 @@ Installation:
 
      go get github.com/splace/sounds   
 
-    
+
+Example:
+
+https://github.com/splace/sounds/blob/master/test%20output/hNotes.wav
+
 [![GoDoc](https://godoc.org/github.com/splace/sounds?status.svg)](https://godoc.org/github.com/splace/sounds)
 
