@@ -148,11 +148,11 @@ func TestSaveADSRModulate(t *testing.T) {
 	Encode(wavFile,Modulated(s, sm, 20*ms),  8000, 1)
 }
 func TestSaveHarmonicNotes(t *testing.T) {
-	stream, err := os.Open("AKWF_eorgan_0003.wav")
+	stream, err := os.Open("sample.wav")
 	if err != nil {
 		panic(err)
 	}
-	piano, err := signals.Decode(stream)
+	sample, err := signals.Decode(stream)
 	if err != nil {
 		panic(err)
 	}
@@ -172,7 +172,7 @@ func TestSaveHarmonicNotes(t *testing.T) {
 	notes := Compositor{}
 	addMidiNote := func(t Compositor, noteNum int8, length, gap uint8) Compositor {
 		//noteAndGap := Sound{signals.Product{NewToneMidi(noteNum, 80), sustainedEnv(signals.MultiplyInterval(length, sustainDuration))}, 140*ms+signals.MultiplyInterval(length+gap, noteDuration)}
-		envNoteAndGap := NewSound(signals.Multiplex{NewSampledMidiTone(noteNum, piano[0], .7), sustainedEnv(time.Duration(length)*sustainDuration)}, 140*ms + time.Duration(length+gap)* noteDuration)
+		envNoteAndGap := NewSound(signals.Multiplex{NewSampledMidiTone(noteNum, sample[0], .7), sustainedEnv(time.Duration(length)*sustainDuration)}, 140*ms + time.Duration(length+gap)* noteDuration)
 		if len(t.Compose) == 0 {
 			return NewCompositor(append(t.Compose, envNoteAndGap))
 		}
@@ -198,5 +198,4 @@ func BenchmarkOne(b *testing.B) {
 }
 
 */
-
 

@@ -5,6 +5,9 @@ import (
 	"github.com/splace/signals"	//"../signals"//
 	"time"
 )
+// Notes are Functions that have a repeat period and a Duration.
+type Note signals.PeriodicLimitedFunction
+
 
 // make a sound from a PeriodicFunction, and a time.Duration.
 // end actually set to the closest whole number of Periodical.Period()s shorter than the length
