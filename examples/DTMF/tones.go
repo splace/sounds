@@ -7,7 +7,7 @@ import "time"
 // the minimum inter-digit interval shall be  45msec, the minimum pulse duration shall be 50msec, and the minimum duty cycle for ANSI-compliance shall be 100msec
 
 // make a Function from two Sine waves scaled and added together.
-func DuelTone(p1,p2 time.Duration) Function {
+func DuelTone(p1,p2 time.Duration) Stack {
 	return Stack{Sine{X(p1)},Sine{X(p2)}}
 }
 

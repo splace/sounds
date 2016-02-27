@@ -35,7 +35,7 @@ type Compositor struct{
 }
 
 func NewCompositor(c ...signals.Function) Compositor {
-	return Compositor{signals.NewSum(c...)}
+	return Compositor{signals.NewCompositor(c...)}
 }
 
 // Silence is a Sound with zero Level.
