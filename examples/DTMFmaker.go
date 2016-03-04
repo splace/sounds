@@ -1,8 +1,8 @@
 // command line inteface for generation of telephone tone dialing codes (DTMF) 
 package main
 
-import . "github.com/splace/sounds"  // change "../../sound"
-import "github.com/splace/sounds/examples/DTMF"
+import . "github.com/splace/sounds"  // "../../sound" //
+import  "./DTMF" // "github.com/splace/sounds/examples/DTMF" // 
 import "os"
 import "flag"
 import "time"
