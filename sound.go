@@ -24,16 +24,18 @@ type Tone signals.PeriodicFunction
 func NewTone(period time.Duration, volume float64) Tone {
 	return signals.NewTone(signals.X(period.Seconds()), signals.DB(volume))
 }
+
 // make a continuous wave whose source is a Sound scaled to fit the period, and looped.
 func NewSampledTone(period time.Duration, sample Sound, volume float64) Tone {
 	return signals.Multiplex{signals.Looped{Spedup(sample, float32(sample.MaxX())/float32(period)), signals.X(period.Seconds())}, signals.NewConstant(signals.DB(volume))}
 }
 
-// Compositor contains signals.Compose, an array of Functions, which can be Sounds.
+// Compositor contains signals.Compose, which adds together an array of Functions, which can be Sounds.
 type Compositor struct{
 	signals.Compose
 }
 
+// make compositor from Function's, (use directly from a slice of narrower interfaces, will require a slice promoter.)
 func NewCompositor(c ...signals.Function) Compositor {
 	return Compositor{signals.NewCompositor(c...)}
 }
