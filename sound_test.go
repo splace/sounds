@@ -15,8 +15,8 @@ func TestSaveTone(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s1 := signals.NewTone(signals.UnitX/200, 1)
-	signals.Encode(wavFile, s1, signals.UnitX, 44100, 2)
+	s1 := signals.NewTone(signals.X(.005), 0)
+	signals.Encode(wavFile, s1, signals.X(1), 44100, 2)
 }
 
 func TestSaveSound(t *testing.T) {
@@ -144,7 +144,7 @@ func TestSaveADSRModulate(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	sm := signals.Looped{signals.NewADSREnvelope(signals.X(.1), signals.X(.1), signals.X(.1), signals.Maxy/10*7, signals.X(.1)), signals.X(.4)}
+	sm := signals.Looped{signals.NewADSREnvelope(signals.X(.1), signals.X(.1), signals.X(.1), signals.Y(.7), signals.X(.1)), signals.X(.4)}
 
 	s := NewMidiNote(MidiNoteNumber(OctaveNumber["two-line"], SemitoneNumber["C"]), 3500*ms, 100)
 	Encode(wavFile,Modulated(s, sm, 20*ms),  8000, 1)
@@ -166,7 +166,7 @@ func TestSaveHarmonicNotes(t *testing.T) {
 	}
 	defer wavFile.Close()
 	sustainedEnv := func(length time.Duration) signals.LimitedFunction {
-		return signals.NewADSREnvelope(signals.X(.025), signals.X(.1), signals.X(length.Seconds()), signals.Maxy/2, signals.X(.5))
+		return signals.NewADSREnvelope(signals.X(.025), signals.X(.1), signals.X(length.Seconds()), signals.Y(.5), signals.X(.5))
 	}
 
 	noteDuration := 180 * ms
