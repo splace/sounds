@@ -3,7 +3,7 @@ Package sounds generates and manipulates sounds.
 
 Overview
 
-Signals with the x-axis accessed as a time.Duration, and with types to help handle music.
+Signals with the x-axis accessed as a time.Duration, and the y-axis -1<y<+1, and with types to help handle music.
 
 Interfaces
 
@@ -11,9 +11,9 @@ Sound:- a signals.LimitedFunction.
 
 Tone:- neverending Sine wave, a signals.PeriodFunction.
 
-Note:- a Sound with a Period, signals.PeriodicLimitedFunction, set to a whole number of Period's.
+Note:- a Sound with a Period set to a whole number of Period's, a signals.PeriodicLimitedFunction.
 
-(along with basic access with whats in this package, as signals.???Function's, these interfaces can be manipulated by func's from the signals package)
+(along with basic access with whats in this package, these interfaces can be used by func's from the signals package)
 
 Types
 
