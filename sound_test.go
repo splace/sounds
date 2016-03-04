@@ -35,7 +35,7 @@ func TestSaveFlattenedSound(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s1 := NewSound(signals.NewSegmented(signals.NewNoise(), signals.X(time.Millisecond/2)), time.Second/2)
+	s1 := NewSound(signals.NewSegmented(signals.NewNoise(), signals.X(.0005)), time.Second/2)
 	Encode(wavFile, s1, 44100, 2)
 }
 
@@ -81,9 +81,10 @@ func TestSaveSignal(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s1 := Delayed(NewSound(signals.Square{signals.X(100 * ms)}, 1000 * ms), 2000*ms)
+	s1 := Delayed(NewSound(signals.Square{signals.X(.1)}, 1000 * ms), 2000*ms)
 	Encode(wavFile,s1,  8000, 1)
 }
+
 func TestSaveModifiedNote(t *testing.T) {
 	wavFile2, err := os.Create("./test output/NoteModded.wav")
 	if err != nil {
@@ -93,6 +94,7 @@ func TestSaveModifiedNote(t *testing.T) {
 	s2 := Spedup(NewSound(NewTone(time.Millisecond, 100), time.Second), .264) // makes a middle c
 	Encode(wavFile2,s2, 8000, 1)
 }
+
 func TestSaveModifiedWav(t *testing.T) {
 	stream, err := os.Open("8k8bitpcm.wav")
 	if err != nil {
@@ -142,7 +144,7 @@ func TestSaveADSRModulate(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	sm := signals.Looped{signals.NewADSREnvelope(signals.X(100*ms), signals.X(100*ms), signals.X(100*ms), signals.Maxy/10*7, signals.X(100*ms)), signals.X(400 * ms)}
+	sm := signals.Looped{signals.NewADSREnvelope(signals.X(.1), signals.X(.1), signals.X(.1), signals.Maxy/10*7, signals.X(.1)), signals.X(.4)}
 
 	s := NewMidiNote(MidiNoteNumber(OctaveNumber["two-line"], SemitoneNumber["C"]), 3500*ms, 100)
 	Encode(wavFile,Modulated(s, sm, 20*ms),  8000, 1)
@@ -164,7 +166,7 @@ func TestSaveHarmonicNotes(t *testing.T) {
 	}
 	defer wavFile.Close()
 	sustainedEnv := func(length time.Duration) signals.LimitedFunction {
-		return signals.NewADSREnvelope(signals.X(25*ms), signals.X(100*ms), signals.X(length), signals.Maxy/2, signals.X(500*ms))
+		return signals.NewADSREnvelope(signals.X(.025), signals.X(.1), signals.X(length.Seconds()), signals.Maxy/2, signals.X(.5))
 	}
 
 	noteDuration := 180 * ms

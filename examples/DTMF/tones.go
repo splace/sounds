@@ -11,7 +11,7 @@ func DuelTone(p1,p2 time.Duration) Stack {
 	return Stack{Sine{X(p1)},Sine{X(p2)}}
 }
 
-var Tones = map[rune]Function{
+var Tones = map[rune]Stack{
 	'0': DuelTone(time.Second/941, time.Second/1336),
 	'1': DuelTone(time.Second/697, time.Second/1209),
 	'2': DuelTone(time.Second/697, time.Second/1336),

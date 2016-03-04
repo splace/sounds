@@ -13,7 +13,7 @@ const ms = time.Millisecond
 type Sound signals.LimitedFunction
 
 func NewSound(sig signals.Function, d time.Duration) Sound {
-	return signals.Multiplex{sig, signals.Pulse{signals.X(d)}}
+	return signals.Multiplex{sig, signals.Pulse{signals.X(d.Seconds())}}
 }
 
 // Tones are Functions that have a repeat period.
@@ -22,11 +22,11 @@ type Tone signals.PeriodicFunction
 
 // make a continuous Sine wave from a period and a volume.
 func NewTone(period time.Duration, volume float64) Tone {
-	return signals.NewTone(signals.X(period), signals.DB(volume))
+	return signals.NewTone(signals.X(period.Seconds()), signals.DB(volume))
 }
 // make a continuous wave whose source is a Sound scaled to fit the period, and looped.
 func NewSampledTone(period time.Duration, sample Sound, volume float64) Tone {
-	return signals.Multiplex{signals.Looped{Spedup(sample, float32(sample.MaxX())/float32(period)), signals.X(period)}, signals.NewConstant(signals.DB(volume))}
+	return signals.Multiplex{signals.Looped{Spedup(sample, float32(sample.MaxX())/float32(period)), signals.X(period.Seconds())}, signals.NewConstant(signals.DB(volume))}
 }
 
 // Compositor contains signals.Compose, an array of Functions, which can be Sounds.
@@ -48,5 +48,4 @@ func Silence(d time.Duration) (s Sound) {
 func Encode(w io.Writer, s Sound, sampleRate, sampleBytes uint) {
 	signals.Encode(w, s, s.MaxX(), uint32(sampleRate), uint8(sampleBytes))
 }
-
 
