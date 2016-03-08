@@ -18,13 +18,13 @@ func NewMidiTone(n int8, volume float64) Tone {
 
 // make a continuous wave whose source is a Sound scaled to fit a Midi note period, and looped. more simply it is a Tone made from a sound sample and, by using the PCM decode function, can be used with standard wav encoded instrument samples.
 func NewSampledMidiTone(n int8, sample Sound, volume float64) Tone {
-	return NewSampledTone(PeriodFromMilliHz(FrequencyMilliHzMidi(n)), sample, volume) 
+	return NewSampledTone(PeriodFromMilliHz(FrequencyMilliHzMidi(n)), sample, volume)
 }
 
 const baseNoteNumber = 69
-const baseFrequency = 440000   // mHz
+const baseFrequency = 440000 // mHz
 
-// frequency as an int, in 1/1000 of a Hz units 
+// frequency as an int, in 1/1000 of a Hz units
 func FrequencyMilliHzMidi(noteNumber int8) int {
 	return int(baseFrequency * math.Pow(2, float64(noteNumber-baseNoteNumber)/12))
 }
@@ -41,5 +41,3 @@ func MidiNoteNumber(octave, semiNote int8) int8 {
 func NameFromMidiNoteNumber(noteNumber int8) string {
 	return SemitonePrefixes[noteNumber/12] + Semitones[noteNumber%12]
 }
-
-

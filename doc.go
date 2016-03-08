@@ -23,4 +23,3 @@ Compositor:- an array of signals.Function, potentially Sound's, that is a signal
 
 */
 package sound
-

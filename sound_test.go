@@ -2,8 +2,8 @@
 package sound
 
 import (
-	"github.com/splace/signals"	//"../signals"//
 	"fmt"
+	"github.com/splace/signals" //"../signals"//
 	"os"
 	"testing"
 	"time"
@@ -81,8 +81,8 @@ func TestSaveSignal(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s1 := Delayed(NewSound(signals.Square{signals.X(.1)}, 1000 * ms), 2000*ms)
-	Encode(wavFile,s1,  8000, 1)
+	s1 := Delayed(NewSound(signals.Square{signals.X(.1)}, 1000*ms), 2000*ms)
+	Encode(wavFile, s1, 8000, 1)
 }
 
 func TestSaveModifiedNote(t *testing.T) {
@@ -92,7 +92,7 @@ func TestSaveModifiedNote(t *testing.T) {
 	}
 	defer wavFile2.Close()
 	s2 := Spedup(NewSound(NewTone(time.Millisecond, 100), time.Second), .264) // makes a middle c
-	Encode(wavFile2,s2, 8000, 1)
+	Encode(wavFile2, s2, 8000, 1)
 }
 
 func TestSaveModifiedWav(t *testing.T) {
@@ -108,7 +108,7 @@ func TestSaveModifiedWav(t *testing.T) {
 	defer wavFile.Close()
 	noises, err := signals.Decode(stream)
 	//noises[0].Interpolate = true // interpolation because the save frequency, 44.1k, is going to be much more than stored, 8k.
-	Encode(wavFile,Spedup(noises[0].(Sound), 1.2),  44100, 1)
+	Encode(wavFile, Spedup(noises[0].(Sound), 1.2), 44100, 1)
 	//wav.Encode(noises[0], wavFile, 44100,1)
 }
 func TestSaveWavSoundAfterSound(t *testing.T) {
@@ -137,7 +137,6 @@ func TestSaveVibrato(t *testing.T) {
 	Encode(wavFile, Modulated(s, sm, 1*ms), 8000, 1)
 }
 
-
 func TestSaveADSRModulate(t *testing.T) {
 	wavFile, err := os.Create("./test output/ADSRModulate.wav")
 	if err != nil {
@@ -147,8 +146,9 @@ func TestSaveADSRModulate(t *testing.T) {
 	sm := signals.Looped{signals.NewADSREnvelope(signals.X(.1), signals.X(.1), signals.X(.1), signals.Y(.7), signals.X(.1)), signals.X(.4)}
 
 	s := NewMidiNote(MidiNoteNumber(OctaveNumber["two-line"], SemitoneNumber["C"]), 3500*ms, 100)
-	Encode(wavFile,Modulated(s, sm, 20*ms),  8000, 1)
+	Encode(wavFile, Modulated(s, sm, 20*ms), 8000, 1)
 }
+
 func TestSaveHarmonicNotes(t *testing.T) {
 	stream, err := os.Open("sample.wav")
 	if err != nil {
@@ -174,7 +174,7 @@ func TestSaveHarmonicNotes(t *testing.T) {
 	notes := Compositor{}
 	addMidiNote := func(t Compositor, noteNum int8, length, gap uint8) Compositor {
 		//noteAndGap := Sound{signals.Product{NewToneMidi(noteNum, 80), sustainedEnv(signals.MultiplyInterval(length, sustainDuration))}, 140*ms+signals.MultiplyInterval(length+gap, noteDuration)}
-		envNoteAndGap := NewSound(signals.Multiplex{NewSampledMidiTone(noteNum, sample[0], .7), sustainedEnv(time.Duration(length)*sustainDuration)}, 140*ms + time.Duration(length+gap)* noteDuration)
+		envNoteAndGap := NewSound(signals.Modulated{NewSampledMidiTone(noteNum, sample[0], .7), sustainedEnv(time.Duration(length) * sustainDuration)}, 140*ms+time.Duration(length+gap)*noteDuration)
 		if len(t.Compose) == 0 {
 			return NewCompositor(append(t.Compose, envNoteAndGap))
 		}
@@ -200,4 +200,3 @@ func BenchmarkOne(b *testing.B) {
 }
 
 */
-
