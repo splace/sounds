@@ -12,7 +12,7 @@ type Note signals.PeriodicLimitedFunction
 // make a sound from a PeriodicFunction, and a time.Duration.
 // end actually set to the closest whole number of Periodical.Period()s shorter than the length
 func NewNote(sig signals.PeriodicFunction, length time.Duration) Note {
-	//	return signals.Multiplex{sig, signals.Pulse{-(signals.X(length.Seconds())+sig.Period())%sig.Period()}}
+	//	return signals.Modulated{sig, signals.Pulse{-(signals.X(length.Seconds())+sig.Period())%sig.Period()}}
 	period := time.Duration(float32(sig.Period()) / float32(signals.X(1)) * float32(time.Second))
 	length -= (length + period) % period
 	// length-=(length+period/2)%period  // half cycle matching
