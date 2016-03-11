@@ -31,7 +31,7 @@ func NewSampledTone(period time.Duration, sample Sound, volume float64) Tone {
 	return signals.Modulated{signals.Looped{Spedup(sample, float32(sample.MaxX())/float32(period)), signals.X(period.Seconds())}, signals.NewConstant(signals.DB(volume))}
 }
 
-// Compositor contains signals.Compose, which adds together an array of Functions, which can be Sounds.
+// Compositor embeds signals.Compose, which adds together an array of Functions, which can be Sounds.
 type Compositor struct {
 	signals.Compose
 }
