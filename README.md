@@ -9,7 +9,7 @@ Installation:
 
      go get github.com/splace/sounds   
 
-Example: play a note.
+Example: play a note. ("aplay" command, or something like it, doesn't seem to exist on windows.)
 
 	package main
 
@@ -40,7 +40,7 @@ Example: play a note.
 	}
 
 
-Example: tune with electronic organ sampled notes.
+Example: saved Sound of a tune with electronic organ sampled notes.
 
 [twinkle twinkle little star](https://github.com/splace/sounds/blob/master/test%20output/hNotes.wav)
 
