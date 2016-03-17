@@ -175,10 +175,10 @@ func TestSaveHarmonicNotes(t *testing.T) {
 	addMidiNote := func(t Compositor, noteNum int8, length, gap uint8) Compositor {
 		//noteAndGap := Sound{signals.Product{NewToneMidi(noteNum, 80), sustainedEnv(signals.MultiplyInterval(length, sustainDuration))}, 140*ms+signals.MultiplyInterval(length+gap, noteDuration)}
 		envNoteAndGap := NewSound(signals.Modulated{NewSampledMidiTone(noteNum, sample[0], .7), sustainedEnv(time.Duration(length) * sustainDuration)}, 140*ms+time.Duration(length+gap)*noteDuration)
-		if len(t.Compose) == 0 {
-			return NewCompositor(append(t.Compose, envNoteAndGap))
+		if len(t.Composite) == 0 {
+			return NewCompositor(append(t.Composite, envNoteAndGap))
 		}
-		return NewCompositor(append(t.Compose, AfterPlusOffset(t.Compose[len(t.Compose)-1].(Sound), envNoteAndGap, -140*ms)))
+		return NewCompositor(append(t.Composite, AfterPlusOffset(t.Composite[len(t.Composite)-1].(Sound), envNoteAndGap, -140*ms)))
 	}
 
 	TwinkleTwinkleLittleStar := []int8{60, 60, 67, 67, 69, 69, -67, 65, 65, 64, 64, 62, 62, -60}
@@ -200,3 +200,5 @@ func BenchmarkOne(b *testing.B) {
 }
 
 */
+
+

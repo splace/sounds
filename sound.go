@@ -38,7 +38,7 @@ type Compositor struct {
 
 // make compositor from Function's, (use directly from a slice of narrower interfaces, will require a slice promoter.)
 func NewCompositor(c ...signals.Function) Compositor {
-	return Compositor{signals.NewCompositor(c...)}
+	return Compositor{signals.NewComposite(c...)}
 }
 
 // Silence is a Sound with zero Level.
