@@ -33,7 +33,7 @@ func NewSampledTone(period time.Duration, sample Sound, volume float64) Tone {
 
 // Compositor embeds signals.Compose, which adds together an array of Functions, which can be Sounds.
 type Compositor struct {
-	signals.Compose
+	signals.Composite
 }
 
 // make compositor from Function's, (use directly from a slice of narrower interfaces, will require a slice promoter.)

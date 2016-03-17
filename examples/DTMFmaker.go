@@ -34,11 +34,11 @@ func main() {
 	if len(code)==0{log.Fatal("need a least 1 key.")}
 
 	tones:=NewCompositor()
-	tones.Compose=append(tones.Compose,NewSound(DTMF.Tones[code[0]],width))
+	tones.Composite=append(tones.Compose,NewSound(DTMF.Tones[code[0]],width))
 	for _,c:=range(code[1:]){
 		// add new Sound, a DTMF.Tone with width, that starts when the previous entry in the slice ends, plus a gap.
 		// Compose is a slice of Function, an interface that doesn't have to contain Sounds, so needs a type assertion to Sound, a type that has an end.  
-		tones.Compose = append(tones.Compose,AfterPlusOffset(tones.Compose[len(tones.Compose)-1].(Sound), NewSound(DTMF.Tones[c],width),gap))
+		tones.Composite = append(tones.Composite,AfterPlusOffset(tones.Compose[len(tones.Compose)-1].(Sound), NewSound(DTMF.Tones[c],width),gap))
 	}
 	Encode(wavFile,tones, sampleRate,sampleBytes )
 }
