@@ -11,7 +11,7 @@ Installation:
 
 Example: play a note.
 
-package main
+	package main
 
 	import (
 		"io"
