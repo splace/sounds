@@ -12,21 +12,20 @@ const ms = time.Millisecond
 // Sounds are Functions that have a duration.
 type Sound signals.LimitedFunction
 
-// signals.unitX maps to a time.Second()
-// so with signals.x as an int64, gives a range of nanosecond to 290years.(cf time.Duration)
+// a Sound made from a Function limited to a specified end time. 
 func NewSound(source signals.Function, d time.Duration) Sound {
 	return signals.Modulated{source, signals.Pulse{signals.X(d.Seconds())}}
 }
 
-// Tones are Functions that have a repeat period.
+// Tones are Functions that have a repeat period, but no end time.
 type Tone signals.PeriodicFunction
 
-// make a continuous Sine wave from a period and a volume.
+// a Tone made from a Sine wave and a volume.
 func NewTone(period time.Duration, volume float64) Tone {
 	return signals.NewTone(signals.X(period.Seconds()), signals.DB(volume))
 }
 
-// make a continuous wave whose source is a Sound scaled to fit the period, and looped.
+// a Tone whose source is a Sound scaled to fit the period, and looped.
 func NewSampledTone(period time.Duration, sample Sound, volume float64) Tone {
 	return signals.Modulated{signals.Looped{Spedup(sample, float32(sample.MaxX())/float32(period)), signals.X(period.Seconds())}, signals.NewConstant(signals.DB(volume))}
 }
@@ -36,7 +35,7 @@ type Compositor struct {
 	signals.Composite
 }
 
-// make compositor from Function's, (use directly from a slice of narrower interfaces, will require a slice promoter.)
+// make a Compositor from Function's, (use directly from a slice of narrower interfaces, it will require a slice promoter.)
 func NewCompositor(sources ...signals.Function) Compositor {
 	return Compositor{signals.NewComposite(sources...)}
 }
