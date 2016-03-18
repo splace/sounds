@@ -27,12 +27,12 @@ const baseNoteNumber = 69
 const baseFrequency = 440000 // mHz
 
 // frequency as an int, in 1/1000 of a Hz units
-func FrequencyMilliHzMidi(noteNumber int8) int {
-	return int(baseFrequency * math.Pow(2, float64(noteNumber-baseNoteNumber)/12))
+func FrequencyMilliHzMidi(noteNumber int8) uint {
+	return uint(baseFrequency * math.Pow(2, float64(noteNumber-baseNoteNumber)/12))
 }
 
 // frequency as in int, in 1/1000 of a Hz units
-func FrequencyMilliHz(octave, semiNote int8) int {
+func FrequencyMilliHz(octave, semiNote int8) uint {
 	return FrequencyMilliHzMidi(MidiNoteNumber(octave, semiNote))
 }
 

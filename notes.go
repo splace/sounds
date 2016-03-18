@@ -45,12 +45,12 @@ func Period(octave, semiNote interface{}) time.Duration {
 	return 0
 }
 
-func PeriodFromMilliHz(mhz int) time.Duration {
+func PeriodFromMilliHz(mhz uint) time.Duration {
 	return 1000 * time.Second / time.Duration(mhz)
 }
 
-func Frequency(period time.Duration) int64 {
-	return int64(time.Second / period)
+func Frequency(period time.Duration) uint {
+	return uint(time.Second / period)
 }
 
 
