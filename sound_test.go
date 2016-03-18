@@ -40,7 +40,7 @@ func TestSaveFlattenedSound(t *testing.T) {
 }
 
 func TestSaveNote(t *testing.T) {
-	noteNumber := MidiNoteNumber(OctaveNumber["one-line"], SemitoneNumber["C"])
+	noteNumber := MidiNote("one-line","C")
 	wavFile, err := os.Create("./test output/middlec.wav")
 	if err != nil {
 		panic(err)
@@ -117,11 +117,11 @@ func TestSaveWavSoundAfterSound(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s1 := NewNote(NewTone(Period(4, SemitoneNumber["D"]), 1), time.Second/3)
-	s2 := After(s1, NewNote(NewTone(Period(4, SemitoneNumber["E"]), 1), time.Second/3))
-	s3 := After(s2, NewNote(NewTone(Period(4, SemitoneNumber["C"]), 1), time.Second/3))
-	s4 := After(s3, NewNote(NewTone(Period(3, SemitoneNumber["C"]), 1), time.Second/3))
-	s5 := After(s4, NewNote(NewTone(Period(3, SemitoneNumber["G"]), 1), time.Second*2/3))
+	s1 := NewNote(NewTone(Period(4, "D"), 1), time.Second/3)
+	s2 := After(s1, NewNote(NewTone(Period(4, "E"), 1), time.Second/3))
+	s3 := After(s2, NewNote(NewTone(Period(4, "C"), 1), time.Second/3))
+	s4 := After(s3, NewNote(NewTone(Period(3, "C"), 1), time.Second/3))
+	s5 := After(s4, NewNote(NewTone(Period(3, "G"), 1), time.Second*2/3))
 	Encode(wavFile, NewCompositor(s1, s2, s3, s4, s5), 44100, 1)
 
 }
@@ -132,8 +132,8 @@ func TestSaveVibrato(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s := NewMidiNote(MidiNoteNumber(OctaveNumber["one-line"], SemitoneNumber["C"]), 2000*ms, 1)
-	sm := NewMidiNote(MidiNoteNumber(OctaveNumber["great"], SemitoneNumber["C"]), 2000*ms, 1)
+	s := NewMidiNote(MidiNote("one-line", "C"), 2000*ms, 1)
+	sm := NewMidiNote(MidiNote("great","C"), 2000*ms, 1)
 	Encode(wavFile, Modulated(s, sm, 1*ms), 8000, 1)
 }
 
@@ -145,7 +145,7 @@ func TestSaveADSRModulate(t *testing.T) {
 	defer wavFile.Close()
 	sm := signals.Looped{signals.NewADSREnvelope(signals.X(.1), signals.X(.1), signals.X(.1), signals.Y(.7), signals.X(.1)), signals.X(.4)}
 
-	s := NewMidiNote(MidiNoteNumber(OctaveNumber["two-line"], SemitoneNumber["C"]), 3500*ms, 100)
+	s := NewMidiNote(MidiNote("two-line","C"), 3500*ms, 100)
 	Encode(wavFile, Modulated(s, sm, 20*ms), 8000, 1)
 }
 
