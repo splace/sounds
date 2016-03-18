@@ -14,8 +14,8 @@ type Sound signals.LimitedFunction
 
 // signals.unitX maps to a time.Second()
 // so with signals.x as an int64, gives a range of nanosecond to 290years.(cf time.Duration)
-func NewSound(sig signals.Function, d time.Duration) Sound {
-	return signals.Modulated{sig, signals.Pulse{signals.X(d.Seconds())}}
+func NewSound(source signals.Function, d time.Duration) Sound {
+	return signals.Modulated{source, signals.Pulse{signals.X(d.Seconds())}}
 }
 
 // Tones are Functions that have a repeat period.
@@ -37,19 +37,19 @@ type Compositor struct {
 }
 
 // make compositor from Function's, (use directly from a slice of narrower interfaces, will require a slice promoter.)
-func NewCompositor(c ...signals.Function) Compositor {
-	return Compositor{signals.NewComposite(c...)}
+func NewCompositor(sources ...signals.Function) Compositor {
+	return Compositor{signals.NewComposite(sources...)}
 }
 
 // Silence is a Sound with zero Level.
 // can be used to give a duration to Compositor, that otherwise dont contain any Sounds, only neverending Functions.
-func Silence(d time.Duration) (s Sound) {
-	return NewSound(signals.NewConstant(0), d)
+func Silence(duration time.Duration) (s Sound) {
+	return NewSound(signals.NewConstant(0), duration)
 }
 
 // encode a Sound as PCM, with a particular sampleRate and sampleBytes precision.
-func Encode(w io.Writer, s Sound, sampleRate, sampleBytes int) {
-	signals.Encode(w, s, s.MaxX(), uint32(sampleRate), uint8(sampleBytes))
+func Encode(too io.Writer, source Sound, sampleRate, sampleBytes int) {
+	signals.Encode(too, source, source.MaxX(), uint32(sampleRate), uint8(sampleBytes))
 }
 
 

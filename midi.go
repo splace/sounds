@@ -7,20 +7,20 @@ import (
 
 // make a Note from a Midi note number, a time.Duration and a volume percentage.
 // duration set to the closest whole number of Periodical.Period()s shorter than the length
-func NewMidiNote(n int8, length time.Duration, volume float64) Note {
-	return NewNote(NewMidiTone(n, volume), length)
+func NewMidiNote(noteNumber int8, length time.Duration, volume float64) Note {
+	return NewNote(NewMidiTone(noteNumber, volume), length)
 }
 
 // make a Tone, a continuous Sine wave, from a Midi-note number and a volume.
-func NewMidiTone(n int8, volume float64) Tone {
-	return NewTone(PeriodFromMilliHz(FrequencyMilliHzMidi(n)), volume)
+func NewMidiTone(noteNumber int8, volume float64) Tone {
+	return NewTone(PeriodFromMilliHz(FrequencyMilliHzMidi(noteNumber)), volume)
 }
 
 // make a Tone, whose source is a Sound looped and scaled to fit a Midi note period.
 // more simply, it is a Tone made from a sound sample.
 // samples can come from a file, using PCM decode function, which can be a standard wav encoded instrument sample.
-func NewSampledMidiTone(n int8, sample Sound, volume float64) Tone {
-	return NewSampledTone(PeriodFromMilliHz(FrequencyMilliHzMidi(n)), sample, volume)
+func NewSampledMidiTone(noteNumber int8, sample Sound, volume float64) Tone {
+	return NewSampledTone(PeriodFromMilliHz(FrequencyMilliHzMidi(noteNumber)), sample, volume)
 }
 
 const baseNoteNumber = 69

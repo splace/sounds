@@ -11,12 +11,12 @@ type Note signals.PeriodicLimitedFunction
 
 // make a Note from a PeriodicFunction, and a time.Duration.
 // end actually set to the closest whole number of Periodical.Period()s shorter than the length
-func NewNote(sig signals.PeriodicFunction, length time.Duration) Note {
+func NewNote(source signals.PeriodicFunction, length time.Duration) Note {
 	//	return signals.Modulated{sig, signals.Pulse{-(signals.X(length.Seconds())+sig.Period())%sig.Period()}}
-	period := time.Duration(float32(sig.Period()) / float32(signals.X(1)) * float32(time.Second))
+	period := time.Duration(float32(source.Period()) / float32(signals.X(1)) * float32(time.Second))
 	length -= (length + period) % period
 	// length-=(length+period/2)%period  // half cycle matching
-	return signals.Modulated{sig, signals.Pulse{signals.X(length.Seconds())}}
+	return signals.Modulated{source, signals.Pulse{signals.X(length.Seconds())}}
 }
 
 var semitoneNumber = map[string]int8{"C": 0, "C#": 1, "Db": 1, "D": 2, "D#": 3, "Eb": 3, "E": 4, "F": 5, "F#": 6, "Gb": 6, "G": 7, "G#": 8, "Ab": 8, "A": 9, "A#": 10, "Bb": 10, "B": 11}

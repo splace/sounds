@@ -5,26 +5,26 @@ import (
 	"time"
 )
 
-func Delayed(s Sound, offset time.Duration) Sound {
-	return NewSound(signals.Shifted{signals.Modulated{signals.Heavyside{}, s}, signals.X(offset.Seconds())}, offset+time.Duration(s.MaxX()))
+func Delayed(source Sound, offset time.Duration) Sound {
+	return NewSound(signals.Shifted{signals.Modulated{signals.Heavyside{}, source}, signals.X(offset.Seconds())}, offset+time.Duration(source.MaxX()))
 }
 
-func Spedup(s Sound, f float32) Sound {
-	return NewSound(signals.Spedup{s, f}, time.Duration(float32(s.MaxX())/f))
+func Spedup(source Sound, factor float32) Sound {
+	return NewSound(signals.Spedup{source, factor}, time.Duration(float32(source.MaxX())/factor))
 }
 
-func After(p, s Sound) Sound {
-	return Delayed(s, time.Duration(p.MaxX()))
+func After(waitedFor, source Sound) Sound {
+	return Delayed(source, time.Duration(waitedFor.MaxX()))
 }
 
-func AfterPlusOffset(p, s Sound, offset time.Duration) Sound {
-	return Delayed(s, time.Duration(p.MaxX())+offset)
+func AfterPlusOffset(waitedFor, source Sound, offset time.Duration) Sound {
+	return Delayed(source, time.Duration(waitedFor.MaxX())+offset)
 }
 
-func Reversed(s Sound) Sound {
-	return NewSound(signals.Shifted{signals.Reversed{s}, s.MaxX()}, time.Duration(s.MaxX()))
+func Reversed(source Sound) Sound {
+	return NewSound(signals.Shifted{signals.Reversed{source}, source.MaxX()}, time.Duration(source.MaxX()))
 }
 
-func Modulated(s Sound, ms signals.Function, factor time.Duration) Sound {
-	return NewSound(signals.RateModulated{s, ms, signals.X(factor.Seconds())}, time.Duration(s.MaxX()))
+func Modulated(source Sound, modulation signals.Function, factor time.Duration) Sound {
+	return NewSound(signals.RateModulated{source, modulation, signals.X(factor.Seconds())}, time.Duration(source.MaxX()))
 }

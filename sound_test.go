@@ -201,36 +201,4 @@ func BenchmarkOne(b *testing.B) {
 
 */
 
-/*  Hal3 Fri Mar 18 00:19:40 GMT 2016 go version go1.5.1 linux/amd64
-=== RUN   TestSaveTone
---- PASS: TestSaveTone (0.02s)
-=== RUN   TestSaveSound
---- PASS: TestSaveSound (0.75s)
-=== RUN   TestSaveFlattenedSound
---- PASS: TestSaveFlattenedSound (0.07s)
-=== RUN   TestSaveNote
---- PASS: TestSaveNote (0.00s)
-=== RUN   TestLoad
-1
---- PASS: TestLoad (0.01s)
-=== RUN   TestLoadChannels
-2
---- PASS: TestLoadChannels (0.07s)
-=== RUN   TestSaveSignal
---- PASS: TestSaveSignal (0.00s)
-=== RUN   TestSaveModifiedNote
---- PASS: TestSaveModifiedNote (0.01s)
-=== RUN   TestSaveModifiedWav
---- PASS: TestSaveModifiedWav (0.13s)
-=== RUN   TestSaveWavSoundAfterSound
---- PASS: TestSaveWavSoundAfterSound (0.09s)
-=== RUN   TestSaveVibrato
---- PASS: TestSaveVibrato (0.01s)
-=== RUN   TestSaveADSRModulate
---- PASS: TestSaveADSRModulate (0.01s)
-=== RUN   TestSaveHarmonicNotes
---- PASS: TestSaveHarmonicNotes (1.16s)
-PASS
-ok  	_/home/simon/Dropbox/github/working/sound	2.374s
-Fri Mar 18 00:19:44 GMT 2016 */
 
