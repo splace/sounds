@@ -119,9 +119,9 @@ func TestSaveWavSoundAfterSound(t *testing.T) {
 	defer wavFile.Close()
 	s1 := NewNote(NewTone(Period(4, "D"), 1), time.Second/3)
 	s2 := After(s1, NewNote(NewTone(Period(4, "E"), 1), time.Second/3))
-	s3 := After(s2, NewNote(NewTone(Period(4, "C"), 1), time.Second/3))
-	s4 := After(s3, NewNote(NewTone(Period(3, "C"), 1), time.Second/3))
-	s5 := After(s4, NewNote(NewTone(Period(3, "G"), 1), time.Second*2/3))
+	s3 := After(s2, NewNote(NewTone(Period(4, 0), 1), time.Second/3))
+	s4 := After(s3, NewNote(NewTone(Period("small", 0), 1), time.Second/3))
+	s5 := After(s4, NewNote(NewTone(Period("small", "G"), 1), time.Second*2/3))
 	Encode(wavFile, NewCompositor(s1, s2, s3, s4, s5), 44100, 1)
 
 }
@@ -201,4 +201,36 @@ func BenchmarkOne(b *testing.B) {
 
 */
 
+/*  Hal3 Fri Mar 18 00:19:40 GMT 2016 go version go1.5.1 linux/amd64
+=== RUN   TestSaveTone
+--- PASS: TestSaveTone (0.02s)
+=== RUN   TestSaveSound
+--- PASS: TestSaveSound (0.75s)
+=== RUN   TestSaveFlattenedSound
+--- PASS: TestSaveFlattenedSound (0.07s)
+=== RUN   TestSaveNote
+--- PASS: TestSaveNote (0.00s)
+=== RUN   TestLoad
+1
+--- PASS: TestLoad (0.01s)
+=== RUN   TestLoadChannels
+2
+--- PASS: TestLoadChannels (0.07s)
+=== RUN   TestSaveSignal
+--- PASS: TestSaveSignal (0.00s)
+=== RUN   TestSaveModifiedNote
+--- PASS: TestSaveModifiedNote (0.01s)
+=== RUN   TestSaveModifiedWav
+--- PASS: TestSaveModifiedWav (0.13s)
+=== RUN   TestSaveWavSoundAfterSound
+--- PASS: TestSaveWavSoundAfterSound (0.09s)
+=== RUN   TestSaveVibrato
+--- PASS: TestSaveVibrato (0.01s)
+=== RUN   TestSaveADSRModulate
+--- PASS: TestSaveADSRModulate (0.01s)
+=== RUN   TestSaveHarmonicNotes
+--- PASS: TestSaveHarmonicNotes (1.16s)
+PASS
+ok  	_/home/simon/Dropbox/github/working/sound	2.374s
+Fri Mar 18 00:19:44 GMT 2016 */
 

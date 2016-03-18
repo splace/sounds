@@ -41,7 +41,6 @@ func Period(octave, semiNote interface{}) time.Duration {
 			return PeriodFromMilliHz(FrequencyMilliHz(octaveNumber[o], semitoneNumber[s]))
 		}
 	}
-	panic("hi")
 	return 0
 }
 
