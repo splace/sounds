@@ -2,7 +2,7 @@
 package main
 
 import . "github.com/splace/sounds"  // "../../sound" //
-import  "./DTMF" // "github.com/splace/sounds/examples/DTMF" // 
+import  "github.com/splace/sounds/examples/DTMF" // "./DTMF" // 
 import "os"
 import "flag"
 import "time"
