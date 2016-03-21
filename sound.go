@@ -41,7 +41,7 @@ func NewCompositor(sources ...signals.Function) Compositor {
 }
 
 // Silence is a Sound with zero Level.
-// can be used to give a duration to Compositor, that otherwise dont contain any Sounds, only neverending Functions.
+// can be used to give a duration to a Compositor, that otherwise doesn't contain any Sounds, only neverending Functions.
 func Silence(duration time.Duration) (s Sound) {
 	return NewSound(signals.NewConstant(0), duration)
 }

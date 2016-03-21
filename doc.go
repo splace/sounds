@@ -3,13 +3,15 @@ Package sounds generates and manipulates sounds.
 
 Overview
 
-time.Duration based Signals with their y-axis ranging from +1 to -1, and with some methods to help handle music.
+a 'higher level' package than github.com/splace/signals, tailored for sounds.
+x-axis a time.Duration and y-axis ranging from +1 to -1.
+composition to allow overlapping and some methods to help with music.
 
 Interfaces
 
 Sound:- time limited Signal (a signals.LimitedFunction.)
 
-Tone:- neverending Sine wave, (a signals.PeriodFunction.)
+Tone:- neverending repeating wave, (a signals.PeriodFunction.)
 
 Note:- a Sound with a duration set to a whole number of Period's, (a signals.PeriodicLimitedFunction.)
 
