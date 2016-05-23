@@ -2,7 +2,7 @@
 package main
 
 import . "github.com/splace/sounds"  // "../../sound" //
-import  "github.com/splace/sounds/examples/DTMF" // "./DTMF" // 
+import  "github.com/splace/sounds/examples/DTMF/Tones" // "./DTMF" // 
 import "os"
 import "flag"
 import "time"
@@ -43,4 +43,6 @@ func main() {
 	Encode(wavFile,tones, int(sampleRate),int(sampleBytes) )
 }
 
+/*  Hal3 Mon May 23 20:11:10 BST 2016 go version go1.5.1 linux/amd64
+Mon May 23 20:11:11 BST 2016 */
 
