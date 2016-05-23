@@ -1,8 +1,8 @@
 // command line tool for generating telephone tone dialing codes (DTMF) 
 package main
 
-import . "github.com/splace/sounds"  // "../../sound" //
-import  "github.com/splace/sounds/examples/DTMF/Tones" // "./DTMF" // 
+import . "github.com/splace/sounds"  
+import  "github.com/splace/sounds/DTMF"
 import "os"
 import "flag"
 import "time"
@@ -42,4 +42,5 @@ func main() {
 	}
 	Encode(wavFile,tones, int(sampleRate),int(sampleBytes) )
 }
+
 
