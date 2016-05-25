@@ -165,7 +165,7 @@ func TestSaveHarmonicNotes(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	sustainedEnv := func(length time.Duration) signals.LimitedFunction {
+	sustainedEnv := func(length time.Duration) signals.LimitedSignal {
 		return signals.NewADSREnvelope(signals.X(.025), signals.X(.1), signals.X(length.Seconds()), signals.Y(.5), signals.X(.5))
 	}
 

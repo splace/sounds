@@ -6,12 +6,12 @@ import (
 	"time"
 )
 
-// Notes are Functions that have a repeat period and a Duration.
-type Note signals.PeriodicLimitedFunction
+// Notes are Signals that have a repeat period and a Duration.
+type Note signals.PeriodicLimitedSignal
 
 // make a Note from a PeriodicFunction, and a time.Duration.
 // end actually set to the closest whole number of Periodical.Period()s shorter than the length
-func NewNote(source signals.PeriodicFunction, length time.Duration) Note {
+func NewNote(source signals.PeriodicSignal, length time.Duration) Note {
 	//	return signals.Modulated{sig, signals.Pulse{-(signals.X(length.Seconds())+sig.Period())%sig.Period()}}
 	period := time.Duration(float32(source.Period()) / float32(signals.X(1)) * float32(time.Second))
 	length -= (length + period) % period

@@ -1,7 +1,7 @@
 package sound
 
 import (
-	"github.com/splace/signals" //"../signals"//
+	"github.com/splace/signals" 
 	"io"
 	"time"
 	//"fmt"
@@ -10,15 +10,15 @@ import (
 const ms = time.Millisecond
 
 // Sounds are Functions that have a duration.
-type Sound signals.LimitedFunction
+type Sound signals.LimitedSignal
 
 // a Sound made from a Function limited to a specified end time. 
-func NewSound(source signals.Function, d time.Duration) Sound {
+func NewSound(source signals.Signal, d time.Duration) Sound {
 	return signals.Modulated{source, signals.Pulse{signals.X(d.Seconds())}}
 }
 
 // Tones are Functions that have a repeat period, but no end time.
-type Tone signals.PeriodicFunction
+type Tone signals.PeriodicSignal
 
 // a Tone made from a Sine wave and a volume.
 func NewTone(period time.Duration, volume float64) Tone {
@@ -36,7 +36,7 @@ type Compositor struct {
 }
 
 // make a Compositor from Function's, (use directly from a slice of narrower interfaces, it will require a slice promoter.)
-func NewCompositor(sources ...signals.Function) Compositor {
+func NewCompositor(sources ...signals.Signal) Compositor {
 	return Compositor{signals.NewComposite(sources...)}
 }
 
@@ -51,4 +51,10 @@ func Encode(too io.Writer, source Sound, sampleRate, sampleBytes int) {
 	signals.Encode(too, source, source.MaxX(), uint32(sampleRate), uint8(sampleBytes))
 }
 
+/*  Hal3 Wed May 25 23:50:31 BST 2016 go version go1.5.1 linux/amd64
+FAIL	_/home/simon/Dropbox/github/working/sound [build failed]
+Wed May 25 23:50:32 BST 2016 */
+/*  Hal3 Wed May 25 23:50:43 BST 2016 go version go1.5.1 linux/amd64
+FAIL	_/home/simon/Dropbox/github/working/sound [build failed]
+Wed May 25 23:50:43 BST 2016 */
 

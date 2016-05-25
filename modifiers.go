@@ -25,6 +25,6 @@ func Reversed(source Sound) Sound {
 	return NewSound(signals.Shifted{signals.Reversed{source}, source.MaxX()}, time.Duration(source.MaxX()))
 }
 
-func Modulated(source Sound, modulation signals.Function, factor time.Duration) Sound {
+func Modulated(source Sound, modulation signals.Signal, factor time.Duration) Sound {
 	return NewSound(signals.RateModulated{source, modulation, signals.X(factor.Seconds())}, time.Duration(source.MaxX()))
 }
