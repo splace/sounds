@@ -9,15 +9,15 @@ import (
 
 const ms = time.Millisecond
 
-// Sounds are Functions that have a duration.
+// Sounds are Signals that have a duration.
 type Sound signals.LimitedSignal
 
-// a Sound made from a Function limited to a specified end time. 
+// a Sound made from a Signal limited to a specified end time. 
 func NewSound(source signals.Signal, d time.Duration) Sound {
 	return signals.Modulated{source, signals.Pulse{signals.X(d.Seconds())}}
 }
 
-// Tones are Functions that have a repeat period, but no end time.
+// Tones are Signals that have a repeat period, but no end time.
 type Tone signals.PeriodicSignal
 
 // a Tone made from a Sine wave and a volume.
@@ -30,18 +30,18 @@ func NewSampledTone(period time.Duration, sample Sound, volume float64) Tone {
 	return signals.Modulated{signals.Looped{Spedup(sample, float32(sample.MaxX())/float32(period)), signals.X(period.Seconds())}, signals.NewConstant(signals.DB(volume))}
 }
 
-// Compositor embeds signals.Compose, which adds together an array of Functions, which can be Sounds.
+// Compositor embeds signals.Compose, which adds together an array of Signals, which can be Sounds.
 type Compositor struct {
 	signals.Composite
 }
 
-// make a Compositor from Function's, (use directly from a slice of narrower interfaces, it will require a slice promoter.)
+// make a Compositor from Signal's, (use directly from a slice of narrower interfaces, it will require a slice promoter.)
 func NewCompositor(sources ...signals.Signal) Compositor {
 	return Compositor{signals.NewComposite(sources...)}
 }
 
 // Silence is a Sound with zero Level.
-// can be used to give a duration to a Compositor, that otherwise doesn't contain any Sounds, only neverending Functions.
+// can be used to give a duration to a Compositor, that otherwise doesn't contain any Sounds, only neverending Signals.
 func Silence(duration time.Duration) (s Sound) {
 	return NewSound(signals.NewConstant(0), duration)
 }
@@ -50,11 +50,4 @@ func Silence(duration time.Duration) (s Sound) {
 func Encode(too io.Writer, source Sound, sampleRate, sampleBytes int) {
 	signals.Encode(too, source, source.MaxX(), uint32(sampleRate), uint8(sampleBytes))
 }
-
-/*  Hal3 Wed May 25 23:50:31 BST 2016 go version go1.5.1 linux/amd64
-FAIL	_/home/simon/Dropbox/github/working/sound [build failed]
-Wed May 25 23:50:32 BST 2016 */
-/*  Hal3 Wed May 25 23:50:43 BST 2016 go version go1.5.1 linux/amd64
-FAIL	_/home/simon/Dropbox/github/working/sound [build failed]
-Wed May 25 23:50:43 BST 2016 */
 

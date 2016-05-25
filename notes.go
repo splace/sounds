@@ -2,14 +2,14 @@
 package sound
 
 import (
-	"github.com/splace/signals" //"../signals"//
+	"github.com/splace/signals"
 	"time"
 )
 
 // Notes are Signals that have a repeat period and a Duration.
 type Note signals.PeriodicLimitedSignal
 
-// make a Note from a PeriodicFunction, and a time.Duration.
+// make a Note from a PeriodicSignal, and a time.Duration.
 // end actually set to the closest whole number of Periodical.Period()s shorter than the length
 func NewNote(source signals.PeriodicSignal, length time.Duration) Note {
 	//	return signals.Modulated{sig, signals.Pulse{-(signals.X(length.Seconds())+sig.Period())%sig.Period()}}
