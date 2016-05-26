@@ -1,4 +1,3 @@
-//Formatted:Tue Feb 2 21:16:02 GMT 2016
 package sound
 
 import (
@@ -10,12 +9,10 @@ import (
 type Note signals.PeriodicLimitedSignal
 
 // make a Note from a PeriodicSignal, and a time.Duration.
-// end actually set to the closest whole number of Periodical.Period()s shorter than the length
+// end moment set to the closest whole number of Periodical.Period()'s shorter than the length
 func NewNote(source signals.PeriodicSignal, length time.Duration) Note {
-	//	return signals.Modulated{sig, signals.Pulse{-(signals.X(length.Seconds())+sig.Period())%sig.Period()}}
 	period := time.Duration(float32(source.Period()) / float32(signals.X(1)) * float32(time.Second))
 	length -= (length + period) % period
-	// length-=(length+period/2)%period  // half cycle matching
 	return signals.Modulated{source, signals.Pulse{signals.X(length.Seconds())}}
 }
 
