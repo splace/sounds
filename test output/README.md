@@ -1,6 +1,4 @@
-# sounds
-
-output from tests.
+#output from tests.
 
 unfortunatly just opening doesn't play in browser, since github doesn't serve them as MIME type audio.
 

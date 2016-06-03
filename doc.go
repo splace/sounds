@@ -1,9 +1,10 @@
 /*
-Package sounds generates and manipulates sounds.
+Package sounds generates and manipulates sounds. A 'high level' wrapper around github.com/splace/signals, tailored for sound.
+Generates tones, notes, sampled notes. 
+Reads/saves PCM files.
 
 Overview
 
-a 'higher level' package than github.com/splace/signals, tailored for sounds.
 x-axis a time.Duration and y-axis ranging from +1 to -1.
 composition to allow overlapping and some methods to help with music.
 
