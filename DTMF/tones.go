@@ -1,4 +1,4 @@
-// lookup DTMF tones from key 
+// lookup DTMF tones from key, this is a plugin for; github.com/splace/signals, for the generation and manipulation of Telephone tones.
 package DTMF
 
 import . "github.com/splace/signals"
