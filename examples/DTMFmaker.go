@@ -29,7 +29,7 @@ func main() {
 		}
 		defer wavFile.Close()
 	}else{
-		log.Fatal("need output file name argument.")
+		log.Fatal("need an output file name argument.")
 	}
 	if len(code)==0{log.Fatal("need a least 1 key.")}
 
@@ -43,4 +43,6 @@ func main() {
 	Encode(wavFile,tones, int(sampleRate),int(sampleBytes) )
 }
 
+/*  Hal3 Sat Jun 4 21:04:56 BST 2016 go version go1.5.1 linux/amd64
+Sat Jun 4 21:04:57 BST 2016 */
 

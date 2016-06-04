@@ -1,4 +1,3 @@
-//Formatted:Tue Feb 2 21:16:21 GMT 2016
 package sound
 
 import (
