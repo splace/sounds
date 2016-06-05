@@ -12,12 +12,12 @@ const ms = time.Millisecond
 // Sounds are Signals that have a duration.
 type Sound signals.LimitedSignal
 
-// a Sound made from a Signal limited to a specified end time. 
+// make a Sound from a Signal (potentially unlimited), limited to a duration. 
 func NewSound(source signals.Signal, d time.Duration) Sound {
 	return signals.Modulated{source, signals.Pulse{signals.X(d.Seconds())}}
 }
 
-// Tones are Signals that have a repeat period, but no end time.
+// Tones are Signals that have a repeat period, but no end.
 type Tone signals.PeriodicSignal
 
 // a Tone made from a Sine wave and a volume.
@@ -35,19 +35,19 @@ type Compositor struct {
 	signals.Composite
 }
 
-// make a Compositor from Signal's, (use directly from a slice of narrower interfaces, it will require a slice promoter.)
+// make a Compositor from Signal's, (to be used directly from a slice of narrower interfaces, it will require one of the slice promoter functions.)
 func NewCompositor(sources ...signals.Signal) Compositor {
 	return Compositor{signals.NewComposite(sources...)}
 }
 
 // Silence is a Sound with zero Level.
-// can be used to give a duration to a Compositor, that otherwise doesn't contain any Sounds, only neverending Signals.
+// can be used to give a duration to a Compositor, that might otherwise not contain any Sounds, only neverending Signals.
 func Silence(duration time.Duration) (s Sound) {
 	return NewSound(signals.NewConstant(0), duration)
 }
 
 // encode a Sound as PCM, with a particular sampleRate and sampleBytes precision.
-func Encode(too io.Writer, source Sound, sampleRate, sampleBytes int) {
-	signals.Encode(too, source, source.MaxX(), uint32(sampleRate), uint8(sampleBytes))
+func Encode(w io.Writer, source Sound, sampleRate, sampleBytes int) {
+	signals.Encode(w, source, source.MaxX(), uint32(sampleRate), uint8(sampleBytes))
 }
 
