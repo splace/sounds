@@ -5,7 +5,7 @@ Status: (Beta :- stabilising API)
 
 Overview/docs: [![GoDoc](https://godoc.org/github.com/splace/sounds?status.svg)](https://godoc.org/github.com/splace/sounds)
 
-	signals: [![GoDoc](https://godoc.org/github.com/splace/signals?status.svg)](https://godoc.org/github.com/splace/signals) 
+signals docs: [![GoDoc](https://godoc.org/github.com/splace/signals?status.svg)](https://godoc.org/github.com/splace/signals) 
 
 Installation:
 
