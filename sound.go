@@ -25,7 +25,7 @@ func NewTone(period time.Duration, volume float64) Tone {
 	return signals.NewTone(signals.X(period.Seconds()), signals.DB(volume))
 }
 
-// a Tone whose source is a Sound scaled to fit the period, and looped.
+// Tone made from a Sound, spedup or slowed down, to fit the required period, and looped.
 func NewSampledTone(period time.Duration, sample Sound, volume float64) Tone {
 	return signals.Modulated{signals.Looped{Spedup(sample, float32(sample.MaxX())/float32(period)), signals.X(period.Seconds())}, signals.NewConstant(signals.DB(volume))}
 }
