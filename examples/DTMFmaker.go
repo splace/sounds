@@ -37,12 +37,11 @@ func main() {
 	tones.Composite=append(tones.Composite,NewSound(DTMF.Tones[code[0]],width))
 	for _,c:=range(code[1:]){
 		// add new Sound, a DTMF.Tone with width, that starts when the previous entry in the slice ends, plus a gap.
-		// Compose is a slice of Function, an interface that doesn't have to contain Sounds, so needs a type assertion to Sound, a type that has an end.  
+		// Compose is a slice of Signal's, an interface that doesn't have to contain Sounds, so needs a type assertion to Sound, a type that has an end.  
 		tones.Composite = append(tones.Composite,AfterPlusOffset(tones.Composite[len(tones.Composite)-1].(Sound), NewSound(DTMF.Tones[c],width),gap))
 	}
 	Encode(wavFile,tones, int(sampleRate),int(sampleBytes) )
 }
 
-/*  Hal3 Sat Jun 4 21:04:56 BST 2016 go version go1.5.1 linux/amd64
-Sat Jun 4 21:04:57 BST 2016 */
+
 

@@ -4,7 +4,6 @@ import (
 	"github.com/splace/signals" 
 	"io"
 	"time"
-	//"fmt"
 )
 
 const ms = time.Millisecond
