@@ -7,12 +7,12 @@ import (
 
 //  returns a Sound that is another Sound with silence prepended.   
 func Delayed(source Sound, offset time.Duration) Sound {
-	return NewSound(signals.Shifted( source, signals.X(offset.Seconds())), offset+time.Duration(source.MaxX()))
+	return Sound(signals.ShiftedLimitedSignal{source, signals.X(offset.Seconds())})
 }
 
 // returns a Sound that is another Sound rate adjusted.
 func Spedup(source Sound, factor float32) Sound {
-	return NewSound(signals.Compressed(source, factor), time.Duration(float32(source.MaxX())/factor))
+	return Sound(signals.CompressedLimitedSignal{source, factor})
 }
 
 // returns a Delayed Sound, so it starts just as another sounds ends.
