@@ -90,7 +90,7 @@ func TestSaveModifiedNote(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile2.Close()
-	s2 := Spedup(NewSound(NewTone(time.Millisecond, 100), time.Second), .264) // makes a middle c
+	s2 := Spedup(NewSound(NewTone(time.Millisecond, 1), time.Second), .264) // makes a middle c
 	Encode(wavFile2, s2, 8000, 1)
 }
 
