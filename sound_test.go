@@ -116,6 +116,7 @@ func TestSaveWavSoundAfterSound(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
+
 	s1 := NewNote(NewTone(Period(4, "D"), 1), time.Second/3)
 	s2 := After(s1, NewNote(NewTone(Period(4, "E"), 1), time.Second/3))
 	s3 := After(s2, NewNote(NewTone(Period(4, 0), 1), time.Second/3))
@@ -199,5 +200,4 @@ func BenchmarkOne(b *testing.B) {
 }
 
 */
-
 
