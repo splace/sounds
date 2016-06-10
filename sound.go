@@ -21,7 +21,7 @@ type Tone signals.PeriodicSignal
 
 // a Tone made from a Sine wave and a volume.
 func NewTone(period time.Duration, volume float64) Tone {
-	return signals.NewTone(signals.X(period.Seconds()), signals.DB(volume))
+	return signals.Modulated{signals.Sine{signals.X(period.Seconds())}, signals.NewConstant(signals.DB(volume))}
 }
 
 // Tone made from a Sound, spedup or slowed down, to fit the required period, and looped.
