@@ -14,8 +14,8 @@ func TestSaveTone(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s1 := signals.NewTone(signals.X(.005), 0)
-	signals.Encode(wavFile, s1, signals.X(1), 44100, 2)
+	s1 := signals.Sine{signals.X(.005)}
+	signals.Encode(wavFile, 2, 44100, signals.X(1), s1)
 }
 
 func TestSaveSound(t *testing.T) {
