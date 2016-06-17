@@ -49,7 +49,4 @@ func Silence(duration time.Duration) (s Sound) {
 func Encode(w io.Writer, source Sound, sampleRate, sampleBytes int) {
 	signals.Encode(w, uint8(sampleBytes), uint32(sampleRate), source.MaxX(), source)
 }
-/*  Hal3 Wed Jun 15 02:32:01 BST 2016 go version go1.5.1 linux/amd64
-FAIL	_/home/simon/Dropbox/github/working/sound [build failed]
-Wed Jun 15 02:32:02 BST 2016 */
 
