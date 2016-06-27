@@ -1,6 +1,6 @@
 /*
 Package sounds generates and manipulates sounds. A 'high level' wrapper for github.com/splace/signals, tailored for sound.
-Generates tones, notes, sampled notes. 
+Generates tones, notes, sampled notes.
 Reads/saves PCM files.
 
 Overview

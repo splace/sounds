@@ -1,13 +1,13 @@
 package sound
 
 import (
-	"github.com/splace/signals" 
+	"github.com/splace/signals"
 	"time"
 )
 
-//  returns a Sound that is another Sound with silence prepended.   
+//  returns a Sound that is another Sound with silence prepended.
 func Delayed(source Sound, offset time.Duration) Sound {
-	return Sound(signals.Shifted{source, signals.X(offset.Seconds())})
+	return Sound(signals.Offset{source, signals.X(offset.Seconds())})
 }
 
 // returns a Sound that is another Sound rate adjusted.
@@ -30,8 +30,7 @@ func Reversed(source Sound) Sound {
 	return NewSound(signals.Shifted{signals.Reversed{source}, source.MaxX()}, time.Duration(source.MaxX()))
 }
 
-// returns a sound that is rate adjusted depending on the value of a signal, potentially another sound. 
+// returns a sound that is rate adjusted depending on the value of a signal, potentially another sound.
 func Modulated(source Sound, modulation signals.Signal, factor time.Duration) Sound {
 	return NewSound(signals.RateModulated{source, modulation, signals.X(factor.Seconds())}, time.Duration(source.MaxX()))
 }
-

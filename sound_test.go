@@ -1,8 +1,8 @@
 package sound
 
 import (
-	"fmt"
-	"github.com/splace/signals" //"../signals"//
+	//"fmt"
+	"github.com/splace/signals"
 	"os"
 	"testing"
 	"time"
@@ -25,7 +25,7 @@ func TestSaveSound(t *testing.T) {
 	}
 	defer wavFile.Close()
 	s1 := NewSound(signals.NewNoise(), time.Second/2)
-	Encode(wavFile, s1, 44100, 2)
+	Encode(wavFile, 2, 44100, s1)
 }
 
 func TestSaveFlattenedSound(t *testing.T) {
@@ -34,20 +34,21 @@ func TestSaveFlattenedSound(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s1 := NewSound(signals.NewSegmented(signals.NewNoise(), signals.X(.0005)), time.Second/2)
-	Encode(wavFile, s1, 44100, 2)
+	s1 := NewSound(&signals.Segmented{Signal:signals.NewNoise(), Width:signals.X(.0005)}, time.Second/2)
+	Encode(wavFile, 2, 44100, s1)
 }
 
 func TestSaveNote(t *testing.T) {
-	noteNumber := MidiNote("one-line","C")
+	noteNumber := MidiNote("one-line", "C")
 	wavFile, err := os.Create("./test output/middlec.wav")
 	if err != nil {
 		panic(err)
 	}
 	defer wavFile.Close()
 	s1 := NewMidiNote(noteNumber, 2000*ms, 1)
-	Encode(wavFile, s1, 8000, 1)
+	Encode(wavFile, 1, 8000, s1)
 }
+
 func TestLoad(t *testing.T) {
 	stream, err := os.Open("middlec.wav")
 	if err != nil {
@@ -58,7 +59,9 @@ func TestLoad(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(len(noises))
+	if len(noises) != 1 {
+		t.Error("middlec.wav not reported as mono.")
+	}
 }
 
 func TestLoadChannels(t *testing.T) {
@@ -71,17 +74,33 @@ func TestLoadChannels(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(len(noises))
+	if len(noises) != 2 {
+		t.Error("middlec.wav not reported as stereo.")
+	}
 }
 
-func TestSaveSignal(t *testing.T) {
+func TestEncodeSignal(t *testing.T) {
 	wavFile, err := os.Create("./test output/delayedlimitedsquaresignal.wav")
 	if err != nil {
 		panic(err)
 	}
 	defer wavFile.Close()
 	s1 := Delayed(NewSound(signals.Square{signals.X(.1)}, 1000*ms), 2000*ms)
-	Encode(wavFile, s1, 8000, 1)
+	Encode(wavFile, 1, 8000, s1)
+}
+
+func TestSaveSignal(t *testing.T) {
+	gobFile, err := os.Create("./test output/delayedlimitedsquaresignal.gob")
+	if err != nil {
+		panic(err)
+	}
+	defer gobFile.Close()
+	s1 := Delayed(NewSound(signals.Square{signals.X(.1)}, 1000*ms), 2000*ms)
+	err = signals.Save(gobFile, s1)
+	if err != nil {
+		panic(err)
+	}
+
 }
 
 func TestSaveModifiedNote(t *testing.T) {
@@ -91,7 +110,7 @@ func TestSaveModifiedNote(t *testing.T) {
 	}
 	defer wavFile2.Close()
 	s2 := Spedup(NewSound(NewTone(time.Millisecond, 1), time.Second), .264) // makes a middle c
-	Encode(wavFile2, s2, 8000, 1)
+	Encode(wavFile2, 1, 8000, s2)
 }
 
 func TestSaveModifiedWav(t *testing.T) {
@@ -107,7 +126,7 @@ func TestSaveModifiedWav(t *testing.T) {
 	defer wavFile.Close()
 	noises, err := signals.Decode(stream)
 	//noises[0].Interpolate = true // interpolation because the save frequency, 44.1k, is going to be much more than stored, 8k.
-	Encode(wavFile, Spedup(noises[0].(Sound), 1.2), 44100, 1)
+	Encode(wavFile, 1, 44100, Spedup(noises[0].(Sound), 1.2))
 	//wav.Encode(noises[0], wavFile, 44100,1)
 }
 func TestSaveWavSoundAfterSound(t *testing.T) {
@@ -122,7 +141,7 @@ func TestSaveWavSoundAfterSound(t *testing.T) {
 	s3 := After(s2, NewNote(NewTone(Period(4, 0), 1), time.Second/3))
 	s4 := After(s3, NewNote(NewTone(Period("small", 0), 1), time.Second/3))
 	s5 := After(s4, NewNote(NewTone(Period("small", "G"), 1), time.Second*2/3))
-	Encode(wavFile, NewCompositor(s1, s2, s3, s4, s5), 44100, 1)
+	Encode(wavFile, 1, 44100, NewCompositor(s1, s2, s3, s4, s5))
 
 }
 
@@ -133,8 +152,8 @@ func TestSaveVibrato(t *testing.T) {
 	}
 	defer wavFile.Close()
 	s := NewMidiNote(MidiNote("one-line", "C"), 2000*ms, 1)
-	sm := NewMidiNote(MidiNote("great","C"), 2000*ms, 1)
-	Encode(wavFile, Modulated(s, sm, 1*ms), 8000, 1)
+	sm := NewMidiNote(MidiNote("great", "C"), 2000*ms, 1)
+	Encode(wavFile, 1, 8000, Modulated(s, sm, 1*ms))
 }
 
 func TestSaveADSRModulate(t *testing.T) {
@@ -145,8 +164,8 @@ func TestSaveADSRModulate(t *testing.T) {
 	defer wavFile.Close()
 	sm := signals.Looped{signals.NewADSREnvelope(signals.X(.1), signals.X(.1), signals.X(.1), signals.Y(.7), signals.X(.1)), signals.X(.4)}
 
-	s := NewMidiNote(MidiNote("two-line","C"), 3500*ms, 100)
-	Encode(wavFile, Modulated(s, sm, 20*ms), 8000, 1)
+	s := NewMidiNote(MidiNote("two-line", "C"), 3500*ms, 100)
+	Encode(wavFile, 1, 8000, Modulated(s, sm, 20*ms))
 }
 
 func TestSaveHarmonicNotes(t *testing.T) {
@@ -191,7 +210,7 @@ func TestSaveHarmonicNotes(t *testing.T) {
 		}
 	}
 	// measured frequencies: 261 392  440 392 349 330 293.5 261 checked
-	Encode(wavFile, notes, 44100, 1)
+	Encode(wavFile, 1, 44100, notes)
 }
 
 /*
@@ -200,4 +219,5 @@ func BenchmarkOne(b *testing.B) {
 }
 
 */
+
 

@@ -47,4 +47,3 @@ func MidiNote(octave, semiNote string) int8 {
 func NameFromMidiNoteNumber(noteNumber int8) string {
 	return semitonePrefixes[noteNumber/12] + semitones[noteNumber%12]
 }
-

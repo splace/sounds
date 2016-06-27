@@ -1,7 +1,7 @@
 package sound
 
 import (
-	"github.com/splace/signals" 
+	"github.com/splace/signals"
 	"io"
 	"time"
 )
@@ -11,7 +11,7 @@ const ms = time.Millisecond
 // Sounds are Signals that have a duration.
 type Sound signals.LimitedSignal
 
-// make a Sound from a Signal (potentially unlimited), limited to a duration. 
+// make a Sound from a Signal (potentially unlimited), limited to a duration.
 func NewSound(source signals.Signal, d time.Duration) Sound {
 	return signals.Modulated{source, signals.Pulse{signals.X(d.Seconds())}}
 }
@@ -46,7 +46,8 @@ func Silence(duration time.Duration) (s Sound) {
 }
 
 // encode a Sound as PCM, with a particular sampleRate and sampleBytes precision.
-func Encode(w io.Writer, source Sound, sampleRate, sampleBytes int) {
+func Encode(w io.Writer, sampleBytes, sampleRate int, source Sound) {
 	signals.Encode(w, uint8(sampleBytes), uint32(sampleRate), source.MaxX(), source)
 }
+
 

@@ -22,19 +22,19 @@ var semitonePrefixes = [...]string{"", "", "low", "base", "middle", "treble", "h
 var semitones = [...]string{"C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"}
 
 func Period(octave, semiNote interface{}) time.Duration {
-	if o,ok:=octave.(int);ok{
-		if s,ok:=semiNote.(int);ok{
+	if o, ok := octave.(int); ok {
+		if s, ok := semiNote.(int); ok {
 			return PeriodFromMilliHz(FrequencyMilliHz(int8(o), int8(s)))
 		}
-		if s,ok:=semiNote.(string);ok{
+		if s, ok := semiNote.(string); ok {
 			return PeriodFromMilliHz(FrequencyMilliHz(int8(o), semitoneNumber[s]))
 		}
 	}
-	if o,ok:=octave.(string);ok{
-		if s,ok:=semiNote.(int);ok{
+	if o, ok := octave.(string); ok {
+		if s, ok := semiNote.(int); ok {
 			return PeriodFromMilliHz(FrequencyMilliHz(octaveNumber[o], int8(s)))
 		}
-		if s,ok:=semiNote.(string);ok{
+		if s, ok := semiNote.(string); ok {
 			return PeriodFromMilliHz(FrequencyMilliHz(octaveNumber[o], semitoneNumber[s]))
 		}
 	}
@@ -48,6 +48,3 @@ func PeriodFromMilliHz(mhz uint) time.Duration {
 func Frequency(period time.Duration) uint {
 	return uint(time.Second / period)
 }
-
-
-
