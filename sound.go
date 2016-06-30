@@ -46,9 +46,16 @@ func Silence(duration time.Duration) (s Sound) {
 }
 
 // encode Sounds as multichannel PCM, with a particular sampleRate and sampleBytes precision.
-// duration is taken fro the first sound.
 func Encode(w io.Writer, sampleBytes, sampleRate int, sources ...signals.Signal) {
-	signals.Encode(w, uint8(sampleBytes), uint32(sampleRate), sources[0].(signals.LimitedSignal).MaxX(), sources...)
+	var max x
+	for _, s := range sources {
+		if sls, ok := s.(LimitedSignal); ok {
+			if newmax := sls.MaxX(); newmax > max {
+				max = newmax
+			}
+		}
+	}
+	signals.Encode(w, uint8(sampleBytes), uint32(sampleRate), max, sources...)
 }
 
 
