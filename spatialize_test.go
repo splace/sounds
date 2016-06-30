@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 	"os"
+	"github.com/splace/signals"
 )
 
 
@@ -25,16 +26,43 @@ func TestSpatializeReceeding(t *testing.T) {
 
 
 
-
 func TestSpatializeStereo(t *testing.T) {
 	wavFile, err := os.Create("./test output/stereo.wav")
 	if err != nil {
 		panic(err)
 	}
 	defer wavFile.Close()
-	s1,s2:=Stereo(NewSound(NewTone(time.Second/440, 1), time.Second*2), vector{2,2})
-	s3,s4:=Stereo(NewSound(NewTone(time.Second/1200, 1), time.Second), vector{-2,2})
-	Encode(wavFile, 1, 16000, NewCompositor(s1,s3),NewCompositor(s2,s4))
+	l1,r1:=Stereo(NewSound(NewTone(time.Second/800, 1), time.Second*1), vector{1,4})
+	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/800, 1), time.Second*1),time.Second*11/10), vector{-1,4})
+	Encode(wavFile, 1, 16000, NewCompositor(l1,l2),NewCompositor(r1,r2))
+
+
+}
+
+
+func TestSpatializeStereoNoise(t *testing.T) {
+	wavFile, err := os.Create("./test output/stereoNoise.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer wavFile.Close()
+	l1,r1:=Stereo(NewSound(signals.NewNoise(), time.Second*1), vector{4,2})
+	l2,r2:=Stereo(Delayed(NewSound(signals.NewNoise(), time.Second*1),time.Second*11/10), vector{-4,2})
+	Encode(wavFile, 2, 22050, NewCompositor(l1,l2),NewCompositor(r1,r2))
+
+
+}
+
+
+func TestSpatializeStereoTone(t *testing.T) {
+	wavFile, err := os.Create("./test output/stereoTone.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer wavFile.Close()
+	l1,r1:=Stereo(NewSound(NewTone(time.Second/440, 1), time.Second*1), vector{4,2})
+	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/440, 1), time.Second*1),time.Second*11/10), vector{-4,2})
+	Encode(wavFile, 2, 22050, NewCompositor(l1,l2),NewCompositor(r1,r2))
 
 
 }
@@ -62,4 +90,24 @@ func TestSpatializeStereo(t *testing.T) {
 //}
 
 
+/*  Hal3 Fri Jul 1 00:28:27 BST 2016 go version go1.5.1 linux/amd64
+=== RUN   TestSpatializeReceeding
+--- PASS: TestSpatializeReceeding (0.17s)
+=== RUN   TestSpatializeStereo
+--- PASS: TestSpatializeStereo (7.10s)
+PASS
+ok  	_/home/simon/Dropbox/github/working/sound	7.305s
+Fri Jul 1 00:28:36 BST 2016 */
+/*  Hal3 Fri Jul 1 00:38:20 BST 2016 go version go1.5.1 linux/amd64
+=== RUN   TestSpatializeReceeding
+--- PASS: TestSpatializeReceeding (0.19s)
+=== RUN   TestSpatializeStereo
+--- PASS: TestSpatializeStereo (0.21s)
+=== RUN   TestSpatializeStereoNoise
+--- PASS: TestSpatializeStereoNoise (7.17s)
+=== RUN   TestSpatializeStereoTone
+--- PASS: TestSpatializeStereoTone (0.29s)
+PASS
+ok  	_/home/simon/Dropbox/github/working/sound	7.884s
+Fri Jul 1 00:38:30 BST 2016 */
 
