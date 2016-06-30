@@ -47,9 +47,9 @@ func Silence(duration time.Duration) (s Sound) {
 
 // encode Sounds as multichannel PCM, with a particular sampleRate and sampleBytes precision.
 func Encode(w io.Writer, sampleBytes, sampleRate int, sources ...signals.Signal) {
-	var max x
+	max:= signals.X(0)
 	for _, s := range sources {
-		if sls, ok := s.(LimitedSignal); ok {
+		if sls, ok := s.(signals.LimitedSignal); ok {
 			if newmax := sls.MaxX(); newmax > max {
 				max = newmax
 			}
