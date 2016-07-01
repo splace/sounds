@@ -60,8 +60,8 @@ func TestSpatializeStereoTone(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	l1,r1:=Stereo(NewSound(NewTone(time.Second/440, 1), time.Second*1), vector{4,2})
-	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/440, 1), time.Second*1),time.Second*11/10), vector{-4,2})
+	l1,r1:=Stereo(NewSound(NewTone(time.Second/440, 1), time.Second*1), vector{4,0})
+	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/440, 1), time.Second*1),time.Second*11/10), vector{-4,0})
 	Encode(wavFile, 2, 22050, NewCompositor(l1,l2),NewCompositor(r1,r2))
 
 
@@ -89,25 +89,4 @@ func TestSpatializeStereoTone(t *testing.T) {
 //
 //}
 
-
-/*  Hal3 Fri Jul 1 00:28:27 BST 2016 go version go1.5.1 linux/amd64
-=== RUN   TestSpatializeReceeding
---- PASS: TestSpatializeReceeding (0.17s)
-=== RUN   TestSpatializeStereo
---- PASS: TestSpatializeStereo (7.10s)
-PASS
-ok  	_/home/simon/Dropbox/github/working/sound	7.305s
-Fri Jul 1 00:28:36 BST 2016 */
-/*  Hal3 Fri Jul 1 00:54:41 BST 2016 go version go1.5.1 linux/amd64
-=== RUN   TestSpatializeReceeding
---- PASS: TestSpatializeReceeding (0.20s)
-=== RUN   TestSpatializeStereo
---- PASS: TestSpatializeStereo (0.19s)
-=== RUN   TestSpatializeStereoNoise
---- PASS: TestSpatializeStereoNoise (7.02s)
-=== RUN   TestSpatializeStereoTone
---- PASS: TestSpatializeStereoTone (0.27s)
-PASS
-ok  	_/home/simon/Dropbox/github/working/sound	7.694s
-Fri Jul 1 00:54:51 BST 2016 */
 
