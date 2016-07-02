@@ -8,9 +8,9 @@ import (
 )
 
 // offset in polar attenuation space from omnidirecional hearing, just guesses.
-const humanOmniOffset = 0.5 
-const humanOmniAngle = math.Pi * .1
-const humanEarOffset = 0.25
+const humanOmniOffset = 0.6 
+const humanOmniAngle = math.Pi * .2
+const humanEarOffset = 0.1
 const rateOfSound = float64(time.Second)/340
 
 type vector struct{

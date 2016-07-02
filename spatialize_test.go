@@ -72,8 +72,8 @@ func TestSpatializeStereoNoiseNarrow(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	l1,r1:=Stereo(NewSound(signals.NewNoise(), time.Second*1), vector{1,4})
-	l2,r2:=Stereo(Delayed(NewSound(signals.NewNoise(), time.Second*1),time.Second*11/10), vector{-1,4})
+	l1,r1:=Stereo(signals.NewPCMSignal(signals.NewNoise(), signals.X(1), 22050, 2) , vector{1,4})
+	l2,r2:=Stereo(Delayed(signals.NewPCMSignal(signals.NewNoise(), signals.X(1), 22050, 2) ,time.Second*11/10), vector{-1,4})
 	Encode(wavFile, 2, 22050, NewCompositor(l1,l2),NewCompositor(r1,r2))
 }
 
@@ -84,8 +84,9 @@ func TestSpatializeStereoNoiseVeryNarrow(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	l1,r1:=Stereo(NewSound(signals.NewNoise(), time.Second*1), vector{.25,4})
-	l2,r2:=Stereo(Delayed(NewSound(signals.NewNoise(), time.Second*1),time.Second*11/10), vector{-.25,4})
+	// noise needs to be sampled, in a PCM, at the same rate as the eventual encoding, to get phasing.
+	l1,r1:=Stereo(signals.NewPCMSignal(signals.NewNoise(), signals.X(1), 22050, 2) , vector{.25,4})
+	l2,r2:=Stereo(Delayed(signals.NewPCMSignal(signals.NewNoise(), signals.X(1), 22050, 2),time.Second*11/10), vector{-.25,4})
 	Encode(wavFile, 2, 22050, NewCompositor(l1,l2),NewCompositor(r1,r2))
 }
 
@@ -96,6 +97,7 @@ func TestSpatializeStereoFrontBackTone(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
+	// noise needs to be sampled, in a PCM, at the same rate as the eventual encoding, to get phasing.
 	l1,r1:=Stereo(NewSound(NewTone(time.Second/440, 1), time.Second*1), vector{0,4})
 	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/440, 1), time.Second*1),time.Second*11/10), vector{0,-4})
 	Encode(wavFile, 2, 22050, NewCompositor(l1,l2),NewCompositor(r1,r2))
@@ -124,5 +126,6 @@ func TestSpatializeStereoFrontBackTone(t *testing.T) {
 //	Encode(wavFile, 1, 8000, s1,s2)
 //
 //}
+
 
 
