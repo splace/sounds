@@ -4,13 +4,14 @@ import (
 	"github.com/splace/signals"
 	"math"
 	"time"
+	"fmt"
 )
 
-// offset in polar attenuation space from omnidirecional hearing
+// offset in polar attenuation space from omnidirecional hearing, just guesses.
 const humanOmniOffset = 0.5 
 const humanOmniAngle = math.Pi * .1
 const humanEarOffset = 0.25
-const rateOfSound = time.Second/340
+const rateOfSound = float64(time.Second)/340
 
 type vector struct{
 	x,y float64
@@ -27,7 +28,8 @@ func angle(point vector) float64 {
 
 // returns a Sound adjusted for location.
 func Spatialized(source Sound, location vector ) Sound {
-	return signals.Modulated{Delayed(source,rateOfSound*time.Duration(distance(location))), signals.NewConstant(signals.DB(attenuation(location)))}
+	fmt.Println(location,distance(location),angle(location))
+	return signals.Modulated{Delayed(source,time.Duration(rateOfSound*distance(location))), signals.NewConstant(signals.DB(attenuation(location)))}
 }
 
 func attenuation(location vector) float64{
@@ -35,11 +37,11 @@ func attenuation(location vector) float64{
 }
 
 func angleAttenuation(angle float64) float64{
-	return math.Sqrt(1+humanOmniOffset*(humanOmniOffset+math.Cos(angle+humanOmniAngle)))
+	return math.Sqrt(1+humanOmniOffset*(humanOmniOffset+math.Cos(angle-humanOmniAngle)))
 }
 
 func Stereo(source Sound, location vector)(left,right Sound){
-	return Spatialized(source,vector{-location.y,location.x-humanEarOffset}),Spatialized(source,vector{location.y,-location.x-humanEarOffset})
+	return Spatialized(source,vector{location.y,-location.x-humanEarOffset}),Spatialized(source,vector{location.y,location.x-humanEarOffset})
 }
 
 

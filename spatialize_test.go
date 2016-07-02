@@ -32,36 +32,72 @@ func TestSpatializeStereo(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	l1,r1:=Stereo(NewSound(NewTone(time.Second/800, 1), time.Second*1), vector{3,4})
-	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/800, 1), time.Second*1),time.Second*11/10), vector{-3,4})
+	l1,r1:=Stereo(NewSound(NewTone(time.Second/800, 1), time.Second*1), vector{4,1})
+	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/800, 1), time.Second*1),time.Second*11/10), vector{-4,1})
+	Encode(wavFile, 1, 16000, NewCompositor(l1,l2),NewCompositor(r1,r2))
+
+
+}
+
+func TestSpatializeStereoNarrow(t *testing.T) {
+	wavFile, err := os.Create("./test output/stereoNarrow.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer wavFile.Close()
+	l1,r1:=Stereo(NewSound(NewTone(time.Second/800, 1), time.Second*1), vector{1,4})
+	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/800, 1), time.Second*1),time.Second*11/10), vector{-1,4})
+	Encode(wavFile, 1, 16000, NewCompositor(l1,l2),NewCompositor(r1,r2))
+
+
+}
+
+func TestSpatializeStereoVeryNarrow(t *testing.T) {
+	wavFile, err := os.Create("./test output/stereoVeryNarrow.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer wavFile.Close()
+	l1,r1:=Stereo(NewSound(NewTone(time.Second/800, 1), time.Second*1), vector{.25,4})
+	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/800, 1), time.Second*1),time.Second*11/10), vector{-.25,4})
 	Encode(wavFile, 1, 16000, NewCompositor(l1,l2),NewCompositor(r1,r2))
 
 
 }
 
 
-func TestSpatializeStereoNoise(t *testing.T) {
-	wavFile, err := os.Create("./test output/stereoNoise.wav")
+func TestSpatializeStereoNoiseNarrow(t *testing.T) {
+	wavFile, err := os.Create("./test output/stereoNoiseNarrow.wav")
 	if err != nil {
 		panic(err)
 	}
 	defer wavFile.Close()
-	l1,r1:=Stereo(NewSound(signals.NewNoise(), time.Second*1), vector{3,4})
-	l2,r2:=Stereo(Delayed(NewSound(signals.NewNoise(), time.Second*1),time.Second*11/10), vector{-3,4})
+	l1,r1:=Stereo(NewSound(signals.NewNoise(), time.Second*1), vector{1,4})
+	l2,r2:=Stereo(Delayed(NewSound(signals.NewNoise(), time.Second*1),time.Second*11/10), vector{-1,4})
 	Encode(wavFile, 2, 22050, NewCompositor(l1,l2),NewCompositor(r1,r2))
-
-
 }
 
 
-func TestSpatializeStereoTone(t *testing.T) {
-	wavFile, err := os.Create("./test output/stereoTone.wav")
+func TestSpatializeStereoNoiseVeryNarrow(t *testing.T) {
+	wavFile, err := os.Create("./test output/stereoNoiseVeryNarrow.wav")
 	if err != nil {
 		panic(err)
 	}
 	defer wavFile.Close()
-	l1,r1:=Stereo(NewSound(NewTone(time.Second/440, 1), time.Second*1), vector{4,0})
-	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/440, 1), time.Second*1),time.Second*11/10), vector{-4,0})
+	l1,r1:=Stereo(NewSound(signals.NewNoise(), time.Second*1), vector{.25,4})
+	l2,r2:=Stereo(Delayed(NewSound(signals.NewNoise(), time.Second*1),time.Second*11/10), vector{-.25,4})
+	Encode(wavFile, 2, 22050, NewCompositor(l1,l2),NewCompositor(r1,r2))
+}
+
+
+func TestSpatializeStereoFrontBackTone(t *testing.T) {
+	wavFile, err := os.Create("./test output/stereoFrontBackTone.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer wavFile.Close()
+	l1,r1:=Stereo(NewSound(NewTone(time.Second/440, 1), time.Second*1), vector{0,4})
+	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/440, 1), time.Second*1),time.Second*11/10), vector{0,-4})
 	Encode(wavFile, 2, 22050, NewCompositor(l1,l2),NewCompositor(r1,r2))
 
 
@@ -89,4 +125,55 @@ func TestSpatializeStereoTone(t *testing.T) {
 //
 //}
 
+/*  Hal3 Sat Jul 2 22:56:09 BST 2016 go version go1.5.1 linux/amd64
+=== RUN   TestSpatializeReceeding
+{0 0} 0 0
+{2 0} 2 1.5707963267948966
+{3 0} 3 1.5707963267948966
+{4 0} 4 1.5707963267948966
+{5 0} 5 1.5707963267948966
+{6 0} 6 1.5707963267948966
+{7 0} 7 1.5707963267948966
+{8 0} 8 1.5707963267948966
+{9 0} 9 1.5707963267948966
+--- PASS: TestSpatializeReceeding (0.16s)
+=== RUN   TestSpatializeStereo
+{1 -4.25} 4.366062299143245 2.910501986393896
+{1 3.75} 3.881043674065006 0.26060239174734096
+{1 3.75} 3.881043674065006 0.26060239174734096
+{1 -4.25} 4.366062299143245 2.910501986393896
+--- PASS: TestSpatializeStereo (0.21s)
+=== RUN   TestSpatializeStereoNarrow
+{4 -1.25} 4.190763653560053 1.873681195169868
+{4 0.75} 4.0697051490249265 1.3854483767992019
+{4 0.75} 4.0697051490249265 1.3854483767992019
+{4 -1.25} 4.190763653560053 1.873681195169868
+--- PASS: TestSpatializeStereoNarrow (0.23s)
+=== RUN   TestSpatializeStereoVeryNarrow
+{4 -0.5} 4.031128874149275 1.695151321341658
+{4 0} 4 1.5707963267948966
+{4 0} 4 1.5707963267948966
+{4 -0.5} 4.031128874149275 1.695151321341658
+--- PASS: TestSpatializeStereoVeryNarrow (0.17s)
+=== RUN   TestSpatializeStereoNoiseNarrow
+{4 -1.25} 4.190763653560053 1.873681195169868
+{4 0.75} 4.0697051490249265 1.3854483767992019
+{4 0.75} 4.0697051490249265 1.3854483767992019
+{4 -1.25} 4.190763653560053 1.873681195169868
+--- PASS: TestSpatializeStereoNoiseNarrow (0.27s)
+=== RUN   TestSpatializeStereoNoiseVeryNarrow
+{4 -0.5} 4.031128874149275 1.695151321341658
+{4 0} 4 1.5707963267948966
+{4 0} 4 1.5707963267948966
+{4 -0.5} 4.031128874149275 1.695151321341658
+--- PASS: TestSpatializeStereoNoiseVeryNarrow (7.51s)
+=== RUN   TestSpatializeStereoFrontBackTone
+{4 -0.25} 4.00780488547035 1.6332151367908538
+{4 -0.25} 4.00780488547035 1.6332151367908538
+{-4 -0.25} 4.00780488547035 -1.6332151367908538
+{-4 -0.25} 4.00780488547035 -1.6332151367908538
+--- PASS: TestSpatializeStereoFrontBackTone (0.29s)
+PASS
+ok  	_/home/simon/Dropbox/github/working/sound	8.853s
+Sat Jul 2 22:56:20 BST 2016 */
 
