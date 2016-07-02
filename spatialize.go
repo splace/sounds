@@ -4,7 +4,6 @@ import (
 	"github.com/splace/signals"
 	"math"
 	"time"
-	"fmt"
 )
 
 // offset in polar attenuation space from omnidirecional hearing, just guesses.
@@ -28,7 +27,6 @@ func angle(point vector) float64 {
 
 // returns a Sound adjusted for location.
 func Spatialized(source Sound, location vector ) Sound {
-	fmt.Println(location,distance(location),angle(location))
 	return signals.Modulated{Delayed(source,time.Duration(rateOfSound*distance(location))), signals.NewConstant(signals.DB(attenuation(location)))}
 }
 
