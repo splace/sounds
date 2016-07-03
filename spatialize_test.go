@@ -32,8 +32,8 @@ func TestSpatializeStereo(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	l1,r1:=Stereo(NewSound(NewTone(time.Second/800, 1), time.Second*1), vector{4,1})
-	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/800, 1), time.Second*1),time.Second*11/10), vector{-4,1})
+	l1,r1:=Stereo(NewSound(NewTone(time.Second/300, 1), time.Second*1), vector{4,1})
+	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/300, 1), time.Second*1),time.Second*11/10), vector{-4,1})
 	Encode(wavFile, 1, 16000, NewCompositor(l1,l2),NewCompositor(r1,r2))
 
 
@@ -45,8 +45,8 @@ func TestSpatializeStereoNarrow(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	l1,r1:=Stereo(NewSound(NewTone(time.Second/800, 1), time.Second*1), vector{1,4})
-	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/800, 1), time.Second*1),time.Second*11/10), vector{-1,4})
+	l1,r1:=Stereo(NewSound(NewTone(time.Second/300, 1), time.Second*1), vector{1,4})
+	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/300, 1), time.Second*1),time.Second*11/10), vector{-1,4})
 	Encode(wavFile, 1, 16000, NewCompositor(l1,l2),NewCompositor(r1,r2))
 
 
@@ -58,8 +58,8 @@ func TestSpatializeStereoVeryNarrow(t *testing.T) {
 		panic(err)
 	}
 	defer wavFile.Close()
-	l1,r1:=Stereo(NewSound(NewTone(time.Second/800, 1), time.Second*1), vector{.25,4})
-	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/800, 1), time.Second*1),time.Second*11/10), vector{-.25,4})
+	l1,r1:=Stereo(NewSound(NewTone(time.Second/300, 1), time.Second*1), vector{.25,4})
+	l2,r2:=Stereo(Delayed(NewSound(NewTone(time.Second/300, 1), time.Second*1),time.Second*11/10), vector{-.25,4})
 	Encode(wavFile, 1, 16000, NewCompositor(l1,l2),NewCompositor(r1,r2))
 
 
