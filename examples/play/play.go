@@ -1,4 +1,4 @@
-// pipe to 'aplay' one second of middle c. 
+// pipe to 'aplay' a scale.
 package main
 
 import (
