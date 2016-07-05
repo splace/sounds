@@ -10,9 +10,9 @@ import	"log"
 
 func main() {
 	var gap,width time.Duration
-	var sampleRate,sampleBytes uint
 	flag.DurationVar(&gap, "gap", 80*time.Millisecond, "gap between pulses")
 	flag.DurationVar(&width, "width", 70*time.Millisecond, "pulse width")
+	var sampleRate,sampleBytes uint
 	flag.UintVar(&sampleRate, "rate", 44100, "sample per second")
 	flag.UintVar(&sampleBytes,"bytes", 2, "bytes per sample")
 	codeString:=flag.String("code", "0123456789", "<digits>*#ABCD to be encoded.")
