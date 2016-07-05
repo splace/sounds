@@ -73,8 +73,8 @@ func TestSpatializeStereoNoise(t *testing.T) {
 	}
 	defer wavFile.Close()
 	// noise is segmented at 2k, to remove high frequencies, otherwise since noise is white and procedural, it will have infinity frequency components, distroying any phasing.
-	l1,r1:=Stereo(NewSound(&signals.Segmented{Signal:signals.NewNoise(),Width:signals.X(.0005)}, time.Second*1), vector{4,1})
-	l2,r2:=Stereo(Delayed(NewSound(&signals.Segmented{Signal:signals.NewNoise(),Width:signals.X(.0005)}, time.Second*1),time.Second*11/10), vector{-4,1})
+	l1,r1:=Stereo(NewSound(&signals.Segmented{Signal:signals.NewNoise(),Width:signals.X(.0005)}, time.Second/10), vector{4,1})
+	l2,r2:=Stereo(Delayed(NewSound(&signals.Segmented{Signal:signals.NewNoise(),Width:signals.X(.0005)}, time.Second/10),time.Second*11/100), vector{-4,1})
 	Encode(wavFile, 4, 44100, NewCompositor(l1,l2),NewCompositor(r1,r2))
 }
 
@@ -86,8 +86,8 @@ func TestSpatializeStereoNoiseNarrow(t *testing.T) {
 	}
 	defer wavFile.Close()
 	// noise is segmented at 2k, to remove high frequencies, otherwise since noise is white and procedural, it will have infinity frequency components, distroying any phasing.
-	l1,r1:=Stereo(NewSound(&signals.Segmented{Signal:signals.NewNoise(),Width:signals.X(.0005)}, time.Second*1), vector{1,4})
-	l2,r2:=Stereo(Delayed(NewSound(&signals.Segmented{Signal:signals.NewNoise(),Width:signals.X(.0005)}, time.Second*1),time.Second*11/10), vector{-1,4})
+	l1,r1:=Stereo(NewSound(&signals.Segmented{Signal:signals.NewNoise(),Width:signals.X(.0005)}, time.Second/10), vector{1,4})
+	l2,r2:=Stereo(Delayed(NewSound(&signals.Segmented{Signal:signals.NewNoise(),Width:signals.X(.0005)}, time.Second/10),time.Second*11/100), vector{-1,4})
 	Encode(wavFile, 4, 44100, NewCompositor(l1,l2),NewCompositor(r1,r2))
 }
 
@@ -99,8 +99,8 @@ func TestSpatializeStereoNoiseVeryNarrow(t *testing.T) {
 	}
 	defer wavFile.Close()
 	// noise is sampled, in a PCM, at the same rate as the eventual encoding, to stop encode sampling from infinite frequencies, and distroying phasing.
-	l1,r1:=Stereo(signals.NewPCMSignal(signals.NewNoise(), signals.X(1), 22050, 2) , vector{.25,4})
-	l2,r2:=Stereo(Delayed(signals.NewPCMSignal(signals.NewNoise(), signals.X(1), 22050, 2),time.Second*11/10), vector{-.25,4})
+	l1,r1:=Stereo(signals.NewPCMSignal(signals.NewNoise(), signals.X(.1), 22050, 2) , vector{.25,4})
+	l2,r2:=Stereo(Delayed(signals.NewPCMSignal(signals.NewNoise(), signals.X(.1), 22050, 2),time.Second*11/100), vector{-.25,4})
 	Encode(wavFile, 2, 22050, NewCompositor(l1,l2),NewCompositor(r1,r2))
 }
 
