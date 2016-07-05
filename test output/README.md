@@ -1,5 +1,5 @@
 #output from tests.
 
-unfortunatly, just opening, doesn't play in browser, since github doesn't serve them as MIME type audio.
+unfortunately, just clicking doesn't play above links, since github doesn't serve them as MIME type audio.
 
-to hear, download raw and use default player on your system, or drag back into browser.
+you'll need to download the raw version and use an audio player on your system, or drag back into a web browser.
