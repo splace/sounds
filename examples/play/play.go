@@ -35,14 +35,4 @@ func main(){
 
 }
 
-/*  Hal3 Tue Jul 5 20:32:53 BST 2016 go version go1.5.1 linux/amd64
-Tue Jul 5 20:32:53 BST 2016 */
-/*  Hal3 Tue Jul 5 20:33:25 BST 2016 go version go1.5.1 linux/amd64
-Tue Jul 5 20:33:25 BST 2016 */
-/*  Hal3 Tue Jul 5 20:33:39 BST 2016 go version go1.5.1 linux/amd64
-Tue Jul 5 20:33:39 BST 2016 */
-/*  Hal3 Tue Jul 5 20:33:47 BST 2016 go version go1.5.1 linux/amd64
-Tue Jul 5 20:33:57 BST 2016 */
-/*  Hal3 Tue Jul 5 20:34:53 BST 2016 go version go1.5.1 linux/amd64
-Tue Jul 5 20:34:58 BST 2016 */
 
