@@ -25,7 +25,7 @@ func angle(point vector) float64 {
 }
 
 
-// returns a Sound adjusted for location.
+// Spatialized returns a Sound adjusted for location.
 func Spatialized(source Sound, location vector ) Sound {
 	return signals.Modulated{Delayed(source,time.Duration(rateOfSound*distance(location))), signals.NewConstant(signals.DB(attenuation(location)))}
 }
@@ -38,7 +38,7 @@ func angleAttenuation(angle float64) float64{
 	return math.Sqrt(1+humanOmniOffset*(humanOmniOffset+math.Cos(angle-humanOmniAngle)))
 }
 
-// returns two Sound's spatialized for human ear locations, from a head centred location.
+// Stereo returns two Sound's spatialized for human ear locations, from a head centred location.
 func Stereo(source Sound, location vector)(left,right Sound){
 	return Spatialized(source,vector{location.y,-location.x-humanEarOffset}),Spatialized(source,vector{location.y,location.x-humanEarOffset})
 }
