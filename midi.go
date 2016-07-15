@@ -6,7 +6,7 @@ import (
 )
 
 // make a Note from a Midi note number, a time.Duration and a volume percentage.
-// duration set to the closest whole number of Periodical.Period()s shorter than the length
+// duration set to the closest whole number of the source's Period(), shorter than the length
 func NewMidiNote(noteNumber int8, length time.Duration, volume float64) Note {
 	return NewNote(NewMidiTone(noteNumber, volume), length)
 }

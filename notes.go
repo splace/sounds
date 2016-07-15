@@ -9,7 +9,7 @@ import (
 type Note signals.PeriodicLimitedSignal
 
 // make a Note from a PeriodicSignal, and a time.Duration.
-// end moment set to the closest whole number of source periods, shorter than the length.
+// duration set to the closest whole number of the source's Period(), shorter than the length
 func NewNote(source signals.PeriodicSignal, length time.Duration) Note {
 	return signals.Modulated{source, signals.Pulse{signals.X(length.Seconds())/source.Period()*source.Period()}}
 }

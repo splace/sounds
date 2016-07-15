@@ -29,6 +29,25 @@ func NewSampledTone(period time.Duration, sample Sound, volume float64) Tone {
 	return signals.Modulated{signals.Looped{Spedup(sample, float32(sample.MaxX())/float32(period)), signals.X(period.Seconds())}, signals.NewConstant(signals.DB(volume))}
 }
 
+// Sequence embeds signals.Sequenced, which appends together an array of Signals.
+type Sequence struct {
+	signals.Sequenced
+}
+
+// make a Sequence of Sound's
+func NewSequencer(sources ...Sound) Sequence {
+	return Sequence{signals.NewSequence(SoundsToLimitedSignals(sources)...)}
+}
+
+// converts to []LimitedSignal
+func SoundsToLimitedSignals(s []Sound) []signals.LimitedSignal {
+	out := make([]signals.LimitedSignal, len(s))
+	for i := range out {
+		out[i] = s[i].(signals.LimitedSignal)
+	}
+	return out
+}
+
 // Compositor embeds signals.Compose, which adds together an array of Signals, which can be Sounds.
 type Compositor struct {
 	signals.Composite

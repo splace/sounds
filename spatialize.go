@@ -38,6 +38,7 @@ func angleAttenuation(angle float64) float64{
 	return math.Sqrt(1+humanOmniOffset*(humanOmniOffset+math.Cos(angle-humanOmniAngle)))
 }
 
+// returns two Sound's spatialized for human ear locations, from a head centred location.
 func Stereo(source Sound, location vector)(left,right Sound){
 	return Spatialized(source,vector{location.y,-location.x-humanEarOffset}),Spatialized(source,vector{location.y,location.x-humanEarOffset})
 }
