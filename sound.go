@@ -77,4 +77,23 @@ func Encode(w io.Writer, sampleBytes, sampleRate int, sources ...signals.Limited
 	signals.Encode(w, uint8(sampleBytes), uint32(sampleRate), max, signals.PromoteToSignals(sources)...)
 }
 
+// turn a slice of Sounds into a slice of the same sounds each with a suffix sound appended.
+func SoundsSuffixed(suffix Sound, sounds ...Sound) []signals.LimitedSignal {
+	out := make([]signals.LimitedSignal, len(sounds))
+	for i := range out {
+		out[i] = NewSequencer(sounds[i],suffix)
+	}
+	return out
+}
+
+// turn a slice of Sounds into a slice of the same sounds each with a prefix sound appended.
+func SoundsPrefixed(prefix Sound, sounds ...Sound) []signals.LimitedSignal {
+	out := make([]signals.LimitedSignal, len(sounds))
+	for i := range out {
+		out[i] = NewSequencer(prefix, sounds[i])
+	}
+	return out
+}
+
+
 
