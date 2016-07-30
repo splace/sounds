@@ -1,7 +1,6 @@
 package sound
 
 import (
-	//"fmt"
 	"github.com/splace/signals"
 	"os"
 	"testing"
@@ -187,13 +186,11 @@ func TestSaveSequences(t *testing.T) {
 	}
 	defer wavFile.Close()
 	TwinkleTwinkleLittleStar := []int8{60, 60, 67, 67, 69, 69, 67, 65, 65, 64, 64, 62, 62, 60}
-	notes:=Sequence{}
-	for _,midiNumber:=range TwinkleTwinkleLittleStar {
-		notes.Sequenced=append(notes.Sequenced,NewMidiNote(midiNumber,300*ms ,.7))
+	notes := make([]Sound, len(TwinkleTwinkleLittleStar))
+	for i, midiNumber := range TwinkleTwinkleLittleStar {
+		notes[i] = NewMidiNote(midiNumber,300*ms ,.7)
 	}
-	Encode(wavFile, 1, 44100, NewSequencer(SoundsSeparated(Silence(100*ms),notes)...))
-	
-	//NewMidiTone(	
+	Encode(wavFile, 1, 44100, NewSequencer(SoundsSeparated(Silence(80*time.Millisecond),notes...)...))
 }
 
 func TestSaveHarmonicNotes(t *testing.T) {
@@ -247,4 +244,58 @@ func BenchmarkOne(b *testing.B) {
 }
 
 */
+
+
+/*  Hal3 Sat Jul 30 23:18:49 BST 2016 go version go1.5.1 linux/amd64
+=== RUN   TestSaveTone
+--- PASS: TestSaveTone (0.11s)
+=== RUN   TestSaveSound
+--- PASS: TestSaveSound (0.90s)
+=== RUN   TestSaveFlattenedSound
+--- PASS: TestSaveFlattenedSound (0.14s)
+=== RUN   TestSaveNote
+--- PASS: TestSaveNote (0.03s)
+=== RUN   TestLoad
+--- PASS: TestLoad (0.01s)
+=== RUN   TestLoadChannels
+--- PASS: TestLoadChannels (0.08s)
+=== RUN   TestEncodeSignal
+--- PASS: TestEncodeSignal (0.05s)
+=== RUN   TestSaveSignal
+--- PASS: TestSaveSignal (0.00s)
+=== RUN   TestSaveModifiedNote
+--- PASS: TestSaveModifiedNote (0.09s)
+=== RUN   TestSaveModifiedWav
+--- PASS: TestSaveModifiedWav (1.11s)
+=== RUN   TestSaveWavSoundAfterSound
+--- PASS: TestSaveWavSoundAfterSound (0.24s)
+=== RUN   TestSaveWavSoundSequence
+--- PASS: TestSaveWavSoundSequence (0.36s)
+=== RUN   TestSaveVibrato
+--- PASS: TestSaveVibrato (0.06s)
+=== RUN   TestSaveADSRModulate
+--- PASS: TestSaveADSRModulate (0.06s)
+=== RUN   TestSaveSequences
+--- PASS: TestSaveSequences (1.24s)
+=== RUN   TestSaveHarmonicNotes
+--- PASS: TestSaveHarmonicNotes (1.48s)
+=== RUN   TestSpatializeReceeding
+--- PASS: TestSpatializeReceeding (0.17s)
+=== RUN   TestSpatializeStereo
+--- PASS: TestSpatializeStereo (0.19s)
+=== RUN   TestSpatializeStereoNarrow
+--- PASS: TestSpatializeStereoNarrow (0.20s)
+=== RUN   TestSpatializeStereoVeryNarrow
+--- PASS: TestSpatializeStereoVeryNarrow (0.19s)
+=== RUN   TestSpatializeStereoNoise
+--- PASS: TestSpatializeStereoNoise (2.83s)
+=== RUN   TestSpatializeStereoNoiseNarrow
+--- PASS: TestSpatializeStereoNoiseNarrow (1.97s)
+=== RUN   TestSpatializeStereoNoiseVeryNarrow
+--- PASS: TestSpatializeStereoNoiseVeryNarrow (0.21s)
+=== RUN   TestSpatializeStereoFrontBackTone
+--- PASS: TestSpatializeStereoFrontBackTone (0.29s)
+PASS
+ok  	_/home/simon/Dropbox/github/working/sound	12.090s
+Sat Jul 30 23:19:04 BST 2016 */
 

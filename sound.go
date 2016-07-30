@@ -61,7 +61,7 @@ func NewCompositor(sources ...signals.Signal) Compositor {
 // Silence is a Sound with zero Level.
 // can be used to give a duration to a Compositor, that might otherwise not contain any Sounds, only neverending Signals.
 func Silence(duration time.Duration) (s Sound) {
-	return NewSound(signals.NewConstant(0), duration)
+	return NewSound(signals.Constant{0}, duration)
 }
 
 // encode Sounds as multichannel PCM, with a particular sampleRate and sampleBytes precision.
@@ -77,7 +77,7 @@ func Encode(w io.Writer, sampleBytes, sampleRate int, sources ...signals.Limited
 	signals.Encode(w, uint8(sampleBytes), uint32(sampleRate), max, signals.PromoteToSignals(sources)...)
 }
 
-// turn a slice of Sounds into a slice of those sounds each with a suffix sound appended.
+// turn a slice of Sounds into a slice of those sounds each separately having a suffix sound prepended.
 func SoundsSuffixed(suffix Sound, sounds ...Sound) []Sound {
 	out := make([]Sound, len(sounds))
 	for i := range out {
@@ -86,7 +86,7 @@ func SoundsSuffixed(suffix Sound, sounds ...Sound) []Sound {
 	return out
 }
 
-// turn a slice of Sounds into a slice of those sounds each with a prefix sound appended.
+// turn a slice of Sounds into a slice of those sounds each separately having  a prefix sound appended.
 func SoundsPrefixed(prefix Sound, sounds ...Sound) []Sound {
 	out := make([]Sound, len(sounds))
 	for i := range out {

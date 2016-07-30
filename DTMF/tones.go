@@ -3,8 +3,6 @@ package DTMF
 
 import . "github.com/splace/signals"
 
-// the minimum inter-digit interval shall be  45msec, the minimum pulse duration shall be 50msec, and the minimum duty cycle for ANSI-compliance shall be 100msec
-
 var Tones = map[rune]Stacked{
 	'0': Stacked{Sine{X(1.0/941)},Sine{X(1.0/1336)}},
 	'1': Stacked{Sine{X(1.0/697)},Sine{X(1.0/1209)}},
