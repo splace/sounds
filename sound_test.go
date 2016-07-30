@@ -191,17 +191,20 @@ func TestSaveSequences(t *testing.T) {
 		Doubles map[int]struct{}
 		} {
 		[]int8{60, 60, 67, 67, 69, 69, 67, 65, 65, 64, 64, 62, 62, 60},
-		map[int]struct{}{ 6:{}, 13:{}},
+		map[int]struct{}{ 7:{}, 14:{}},
 	}
+	
+	
+	// use sequencer to append notes
 	notes := make([]Sound, len(TwinkleTwinkleLittleStar.Notes))
 	for i, midiNumber := range TwinkleTwinkleLittleStar.Notes {
-		if _,ok:=TwinkleTwinkleLittleStar.Doubles[i];ok{
+		if _,ok:=TwinkleTwinkleLittleStar.Doubles[i+1];ok{
 			notes[i] = NewMidiNote(midiNumber,noteLength*2 ,.7)
 		}else{
 			notes[i] = NewMidiNote(midiNumber,noteLength ,.7)
 		}
 	}
-	Encode(wavFile, 1, 44100, NewSequencer(SoundsSeparated(Silence(80*time.Millisecond),notes...)...))
+	Encode(wavFile, 1, 44100, NewSequencer(SoundsSeparated(Silence(80*ms),notes...)...))
 }
 
 func TestSaveHarmonicNotes(t *testing.T) {
@@ -226,6 +229,9 @@ func TestSaveHarmonicNotes(t *testing.T) {
 
 	noteDuration := 180 * ms
 	sustainDuration := 50 * ms
+
+	// use compositor, so each note doesn't just start when previous ended, they can overlap.
+	// this way decay of previous note can still exist beyond the start of the next note.  
 	notes := Compositor{}
 	addMidiNote := func(t Compositor, noteNum int8, length, gap uint8) Compositor {
 		//noteAndGap := Sound{signals.Product{NewToneMidi(noteNum, 80), sustainedEnv(signals.MultiplyInterval(length, sustainDuration))}, 140*ms+signals.MultiplyInterval(length+gap, noteDuration)}
