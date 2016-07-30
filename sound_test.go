@@ -90,13 +90,7 @@ func TestEncodeSignal(t *testing.T) {
 }
 
 func TestSaveSignal(t *testing.T) {
-	gobFile, err := os.Create("./test output/delayedlimitedsquaresignal.gob")
-	if err != nil {
-		panic(err)
-	}
-	defer gobFile.Close()
-	s1 := Delayed(NewSound(signals.Square{signals.X(.1)}, 1000*ms), 2000*ms)
-	err = signals.Save(gobFile, s1)
+	err := signals.SaveGOB("./test output/delayedlimitedsquaresignal", Delayed(NewSound(signals.Square{signals.X(.1)}, 1000*ms), 2000*ms))
 	if err != nil {
 		panic(err)
 	}
@@ -186,6 +180,22 @@ func TestSaveADSRModulate(t *testing.T) {
 	Encode(wavFile, 1, 8000, Modulated(s, sm, 20*ms))
 }
 
+func TestSaveSequences(t *testing.T) {
+	wavFile, err := os.Create("./test output/noteSequence.wav")
+	if err != nil {
+		panic(err)
+	}
+	defer wavFile.Close()
+	TwinkleTwinkleLittleStar := []int8{60, 60, 67, 67, 69, 69, 67, 65, 65, 64, 64, 62, 62, 60}
+	notes:=Sequence{}
+	for _,midiNumber:=range TwinkleTwinkleLittleStar {
+		notes.Sequenced=append(notes.Sequenced,NewMidiNote(midiNumber,300*ms ,.7))
+	}
+	Encode(wavFile, 1, 44100, NewSequencer(SoundsSeparated(Silence(100*ms),notes)...))
+	
+	//NewMidiTone(	
+}
+
 func TestSaveHarmonicNotes(t *testing.T) {
 	stream, err := os.Open("sample.wav")
 	if err != nil {
@@ -237,5 +247,4 @@ func BenchmarkOne(b *testing.B) {
 }
 
 */
-
 

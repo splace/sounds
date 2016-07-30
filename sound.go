@@ -77,20 +77,33 @@ func Encode(w io.Writer, sampleBytes, sampleRate int, sources ...signals.Limited
 	signals.Encode(w, uint8(sampleBytes), uint32(sampleRate), max, signals.PromoteToSignals(sources)...)
 }
 
-// turn a slice of Sounds into a slice of the same sounds each with a suffix sound appended.
-func SoundsSuffixed(suffix Sound, sounds ...Sound) []signals.LimitedSignal {
-	out := make([]signals.LimitedSignal, len(sounds))
+// turn a slice of Sounds into a slice of those sounds each with a suffix sound appended.
+func SoundsSuffixed(suffix Sound, sounds ...Sound) []Sound {
+	out := make([]Sound, len(sounds))
 	for i := range out {
 		out[i] = NewSequencer(sounds[i],suffix)
 	}
 	return out
 }
 
-// turn a slice of Sounds into a slice of the same sounds each with a prefix sound appended.
-func SoundsPrefixed(prefix Sound, sounds ...Sound) []signals.LimitedSignal {
-	out := make([]signals.LimitedSignal, len(sounds))
+// turn a slice of Sounds into a slice of those sounds each with a prefix sound appended.
+func SoundsPrefixed(prefix Sound, sounds ...Sound) []Sound {
+	out := make([]Sound, len(sounds))
 	for i := range out {
 		out[i] = NewSequencer(prefix, sounds[i])
+	}
+	return out
+}
+
+// turn a slice of Sounds into a slice of those sounds with the same separator sound between each.
+func SoundsSeparated(sep Sound, sounds ...Sound) []Sound {
+	out := make([]Sound, len(sounds)*2-1)
+	for i := range out {
+		if i/2*2==i {
+			out[i] = sounds[i/2]
+			}else{
+			out[i]=sep
+			}
 	}
 	return out
 }
