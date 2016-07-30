@@ -186,6 +186,8 @@ func TestSaveSequences(t *testing.T) {
 	}
 	defer wavFile.Close()
 	noteLength:=300*ms
+
+	// uses reference to which notes are double
 	TwinkleTwinkleLittleStar := struct{
 		Notes []int8
 		Doubles map[int]struct{}
@@ -242,6 +244,7 @@ func TestSaveHarmonicNotes(t *testing.T) {
 		return NewCompositor(append(t.Composite, AfterPlusOffset(t.Composite[len(t.Composite)-1].(Sound), envNoteAndGap, -140*ms)))
 	}
 
+	// use -ve to indicate double note
 	TwinkleTwinkleLittleStar := []int8{60, 60, 67, 67, 69, 69, -67, 65, 65, 64, 64, 62, 62, -60}
 	var noteLength uint8 = 1
 	for _, note := range TwinkleTwinkleLittleStar {
