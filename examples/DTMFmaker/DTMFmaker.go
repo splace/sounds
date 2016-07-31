@@ -8,7 +8,6 @@ import "flag"
 import "time"
 import "log"
 
-// the minimum inter-digit interval shall be  45msec, the minimum pulse duration shall be 50msec, and the minimum duty cycle for ANSI-compliance shall be 100msec
 
 
 func main() {
@@ -37,10 +36,14 @@ func main() {
 	if len(code) == 0 {
 		log.Fatal("need a least 1 key.")
 	}
-
+	// the minimum inter-digit interval shall be  45msec, the minimum pulse duration shall be 50msec, and the minimum duty cycle for ANSI-compliance shall be 100msec
+	if gap<45*time.Millisecond || width<50*time.Millisecond || gap+width<100*time.Millisecond {
+		log.Println("Warning: Non-ANSI-complient timings.")
+	}
+	
 	tones := make([]Sound, len(code))
 	for i, c := range code {
-		tones[i] = NewSound(DTMF.Tones[c], width)
+		tones[i] = NewNote(DTMF.Tones[c], width)
 	}
 	Encode(wavFile, int(sampleBytes), int(sampleRate), NewSequencer(SoundsSeparated(Silence(gap),tones...)...))
 }
