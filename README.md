@@ -26,7 +26,7 @@ Example: play a note. ("aplay" command, or something like it, doesn't seem to ex
 		cmd := exec.Command("aplay")
 		out, in := io.Pipe()
 		go func() {
-			Encode(in, s, 44100,2)
+			Encode(in, 2, 44100, s)
 			in.Close()
 		}()
 		cmd.Stdin=out 

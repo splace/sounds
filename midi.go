@@ -16,9 +16,9 @@ func NewMidiTone(noteNumber int8, volume float64) Tone {
 	return NewTone(PeriodFromMilliHz(FrequencyMilliHzMidi(noteNumber)), volume)
 }
 
-// Tone made from a Sound, spedup or slowed down, to fit a Midi note period, and looped.
+// Tone made from a Sound, sped-up or slowed down, to fit a Midi note period, and looped.
 // put simply, it is a Tone made from a sample of a single cycle.
-// samples can come from a file, using PCM decode function, which can be a standard wav encoded instrument sample.
+// samples can come from a file, using PCM decode function, which can be a standard wave encoded instrument sample.
 func NewSampledMidiTone(noteNumber int8, sample Sound, volume float64) Tone {
 	return NewSampledTone(PeriodFromMilliHz(FrequencyMilliHzMidi(noteNumber)), sample, volume)
 }

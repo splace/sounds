@@ -24,7 +24,7 @@ func NewTone(period time.Duration, volume float64) Tone {
 	return signals.Modulated{signals.Sine{signals.X(period.Seconds())}, signals.NewConstant(signals.DB(volume))}
 }
 
-// Tone made from a Sound, spedup or slowed down, to fit the required period, and looped.
+// Tone made from a Sound, sped-up or slowed down, to fit the required period, and looped.
 func NewSampledTone(period time.Duration, sample Sound, volume float64) Tone {
 	return signals.Modulated{signals.Looped{Spedup(sample, float32(sample.MaxX())/float32(period)), signals.X(period.Seconds())}, signals.NewConstant(signals.DB(volume))}
 }
@@ -59,7 +59,7 @@ func NewCompositor(sources ...signals.Signal) Compositor {
 }
 
 // Silence is a Sound with zero Level.
-// can be used to give a duration to a Compositor, that might otherwise not contain any Sounds, only neverending Signals.
+// can be used to give a duration to a Compositor, that might otherwise not contain any Sounds, only never-ending Signals.
 func Silence(duration time.Duration) (s Sound) {
 	return NewSound(signals.Constant{0}, duration)
 }
@@ -86,7 +86,7 @@ func SoundsSuffixed(suffix Sound, sounds ...Sound) []Sound {
 	return out
 }
 
-// turn a slice of Sounds into a slice of those sounds each separately having  a prefix sound appended.
+// turn a slice of Sounds into a slice of those sounds each separately having a prefix sound appended.
 func SoundsPrefixed(prefix Sound, sounds ...Sound) []Sound {
 	out := make([]Sound, len(sounds))
 	for i := range out {
