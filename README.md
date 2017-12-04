@@ -10,7 +10,7 @@ Installation:
 
      go get github.com/splace/sounds   
 
-Example: play a note. ("aplay" command, or something like it, doesn't seem to exist on windows.)
+Example: play a note.(uses linux "aplay" command.)
 
 	package main
 
