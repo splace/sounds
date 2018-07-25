@@ -15,7 +15,6 @@ Example: play a note.(uses linux "aplay" command.)
 	package main
 
 	import (
-		"io"
 		"os/exec"
 		"time"
 	)
@@ -23,22 +22,27 @@ Example: play a note.(uses linux "aplay" command.)
 	import . "github.com/splace/sounds"
 
 	func play(s Sound) {
-		cmd := exec.Command("aplay")
-		out, in := io.Pipe()
-		go func() {
-			Encode(in, 2, 44100, s)
-			in.Close()
-		}()
-		cmd.Stdin=out 
-		err := cmd.Run()
+		cmd := exec.Command("aplay","--rate=44100","--format=S16_LE")
+		in,err:=cmd.StdinPipe()
+		if err != nil {
+			panic(err)
+		}
+		err = cmd.Start()
+		if err != nil {
+			panic(err)
+		}
+		Encode(in, 2, 44100, s)
+		in.Close()
+		err = cmd.Wait()
 		if err != nil {
 			panic(err)
 		}
 	}
 
 	func main(){
-		play(NewSound(NewTone(time.Second/440, 1),time.Second))
+		play(NewSound(NewTone(time.Second/440, 1),time.Second/3))
 	}
+
 
 
 Example: A tune with sampled notes.

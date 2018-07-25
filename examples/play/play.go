@@ -2,7 +2,7 @@
 package main
 
 import (
-	"io"
+//	"io"
 	"os/exec"
 	"time"
 )
@@ -10,14 +10,18 @@ import (
 import . "github.com/splace/sounds"
 
 func play(s Sound) {
-	out, in := io.Pipe()
-	go func() {
-		Encode(in,2, 44100, s)
-		in.Close()
-	}()
-	cmd := exec.Command("aplay")
-	cmd.Stdin=out 
-	err := cmd.Run()
+	cmd := exec.Command("aplay","--rate=44100","--format=S16_LE")
+	in,err:=cmd.StdinPipe()
+	if err != nil {
+		panic(err)
+	}
+	err = cmd.Start()
+	if err != nil {
+		panic(err)
+	}
+	Encode(in, 2, 44100, s)
+	in.Close()
+	err = cmd.Wait()
 	if err != nil {
 		panic(err)
 	}
